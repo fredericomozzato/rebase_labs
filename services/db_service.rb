@@ -1,14 +1,8 @@
 require 'pg'
 
 class DbService
-  attr_reader :conn
-
-  def initialize
-    @conn = PG::Connection.new host: '127.0.0.1',
-                               port: 5432,
-                               dbname: 'relabs',
-                               user: 'user',
-                               password: 'pswd'
+  def initialize(conn)
+    @conn = conn
   end
 
   def setup
@@ -33,10 +27,7 @@ class DbService
         test_result INTEGER
       );
     SQL
-  begin
-    result = @conn.exec sql
-  ensure
-    @conn.close
-  end
+
+    @conn.exec sql
   end
 end
