@@ -1,12 +1,11 @@
 require 'pg'
 
 class DbService
-  def initialize(conn)
-    @conn = conn
-  end
-
-  def setup
+  def self.setup(conn)
     sql = <<-SQL
+      SELECT 'CREATE DATABASE relabs'
+      WHERE NOT EXISTS(SELECT FROM pg_database WHERE datname = 'relabs');
+
       CREATE TABLE IF NOT EXISTS tests (
         id SERIAL PRIMARY KEY,
         patient_cpf CHAR(14),
@@ -28,6 +27,6 @@ class DbService
       );
     SQL
 
-    @conn.exec sql
+    conn.exec sql
   end
 end

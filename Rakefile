@@ -10,7 +10,7 @@ namespace :data do
     puts '=== Importando dados ==='
 
     ConnectionService.with_pg_conn do |conn|
-      DbService.new(conn).setup
+      DbService.setup conn
       test_repo = TestsRepository.new conn
 
       rows = CSV.read("./persistence/data.csv", col_sep: ';')
