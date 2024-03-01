@@ -1,8 +1,13 @@
 require 'sinatra/base'
-require 'csv'
+require_relative 'services/connection_service'
+require_relative 'repositories/tests_repository'
+
 
 class Server < Sinatra::Application
   get '/tests' do
-    { message: "Test" }.to_json
+    ConnectionService.with_pg_conn do |conn|
+      test_repo = TestsRepository.new conn
+      test_repo.select_all.to_json
+    end
   end
 end

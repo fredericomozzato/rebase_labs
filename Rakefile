@@ -7,18 +7,19 @@ desc 'Importar dados de exames de data.csv'
 
 namespace :data do
   task :import do
-    conn = ConnectionService.conn
-    DbService.new(conn).setup
-    test_repo = TestsRepository.new conn
-
     puts '=== Importando dados ==='
 
-    rows = CSV.read("./persistence/data.csv", col_sep: ';')
-    rows.slice(1..). each do |row|
-      test_repo.insert test_data: row
+    ConnectionService.with_pg_conn do |conn|
+      DbService.new(conn).setup
+      test_repo = TestsRepository.new conn
+
+      rows = CSV.read("./persistence/data.csv", col_sep: ';')
+
+      rows.slice(1..). each do |row|
+        test_repo.insert test_data: row
+      end
     end
 
-    conn.close
     puts '=== Import concluído ==='
   end
 end
