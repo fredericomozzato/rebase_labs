@@ -1,7 +1,8 @@
 require 'pg'
+require_relative 'connection_service'
 
-class DbService
-  def self.setup(conn)
+class DbService < ConnectionService
+  def self.setup
     sql = <<-SQL
       SELECT 'CREATE DATABASE relabs'
       WHERE NOT EXISTS(SELECT FROM pg_database WHERE datname = 'relabs');
@@ -27,6 +28,8 @@ class DbService
       );
     SQL
 
-    conn.exec sql
+    with_pg_conn do |conn|
+      conn.exec sql
+    end
   end
 end
