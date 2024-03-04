@@ -1,5 +1,4 @@
 require 'csv'
-require_relative 'services/db_service'
 require_relative 'services/tests_service'
 
 desc 'Importar dados de exames de data.csv'
