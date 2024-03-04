@@ -1,5 +1,4 @@
 require 'pg'
-require 'byebug'
 
 class ConnectionService
   def self.with_pg_conn

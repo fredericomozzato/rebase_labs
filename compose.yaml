@@ -18,6 +18,8 @@ services:
     container_name: db
     ports:
       - "5432:5432"
+    volumes:
+      - pg_data:/var/lib/postgresql/data
     networks:
       - net
     environment:
@@ -27,3 +29,7 @@ services:
 networks:
   net:
     driver: bridge
+
+volumes:
+  pg_data:
+    driver: local
