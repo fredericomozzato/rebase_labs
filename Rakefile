@@ -8,7 +8,6 @@ namespace :data do
   task :import do
     puts '=== Importando dados ==='
 
-    DbService.setup
     rows = CSV.read "./persistence/data.csv", col_sep: ';'
     TestsService.insert(rows)
 

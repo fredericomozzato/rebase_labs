@@ -7,8 +7,8 @@ class TestsService < ConnectionService
       with_pg_conn do |conn|
         TestsRepository.new(conn).select_all.to_json
       end
-    rescue PG::ConnectionBad, PG::UndefinedTable
-      {}.to_json
+    rescue
+      {error: "O servidor encontrou um erro"}.to_json
     end
   end
 
