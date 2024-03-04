@@ -1,12 +1,13 @@
 require 'pg'
+require 'byebug'
 
 class ConnectionService
   def self.with_pg_conn
-    conn = PG::Connection.new host: '127.0.0.1',
+    conn = PG::Connection.new host: 'db',
                               port: 5432,
                               dbname: 'relabs',
-                              user: 'user',
-                              password: 'pswd'
+                              user: 'relabs',
+                              password: 'relabs'
     yield conn
   ensure
     conn&.close

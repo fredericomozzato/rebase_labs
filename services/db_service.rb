@@ -4,9 +4,6 @@ require_relative 'connection_service'
 class DbService < ConnectionService
   def self.setup
     sql = <<-SQL
-      SELECT 'CREATE DATABASE relabs'
-      WHERE NOT EXISTS(SELECT FROM pg_database WHERE datname = 'relabs');
-
       CREATE TABLE IF NOT EXISTS tests (
         id SERIAL PRIMARY KEY,
         patient_cpf CHAR(14),
