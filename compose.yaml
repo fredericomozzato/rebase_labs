@@ -1,0 +1,33 @@
+version: "3.8"
+
+services:
+  app:
+    build: .
+    container_name: app
+    working_dir: /app
+    volumes:
+      - .:/app
+    networks:
+      - net
+    ports:
+      - "4567:4567"
+  database:
+    image: postgres
+    container_name: db
+    volumes:
+      - pg-data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - net
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: pswd
+      POSTGRES_DB: relabs
+    
+networks:
+  net:
+    driver: bridge
+
+volumes:
+  pg-data:

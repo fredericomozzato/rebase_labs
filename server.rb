@@ -5,4 +5,8 @@ class Server < Sinatra::Application
   get '/tests' do
     TestsService.get
   end
+
+  get '/up' do
+    'Server is up'
+  end
 end
