@@ -1,10 +1,12 @@
 # See https://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
 
+require 'byebug'
+require 'pg'
 require 'rspec'
 require 'rack/test'
-require 'pg'
 require_relative '../server'
 require_relative '../services/db_service'
+require_relative '../services/tests_service'
 
 ENV['RACK_ENV'] = 'test'
 ENV['TEST_DB'] = 'relabs_test'
