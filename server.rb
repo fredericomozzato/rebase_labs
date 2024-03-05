@@ -3,6 +3,7 @@ require_relative 'services/tests_service'
 
 class Server < Sinatra::Application
   get '/tests' do
+    content_type :json
     begin
       TestsService.get
     rescue
@@ -12,6 +13,7 @@ class Server < Sinatra::Application
   end
 
   get '/up' do
-    'Servidor online'
+    content_type :json
+    {status: 'Servidor online'}.to_json
   end
 end

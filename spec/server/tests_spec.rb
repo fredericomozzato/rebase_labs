@@ -6,7 +6,8 @@ RSpec.describe Server, type: :request do
       get '/up'
 
       expect(last_response.status).to eq 200
-      expect(last_response.body).to eq 'Servidor online'
+      expect(last_response.content_type).to include 'application/json'
+      expect(last_response.body).to eq '{"status":"Servidor online"}'
     end
   end
 
@@ -15,6 +16,7 @@ RSpec.describe Server, type: :request do
       get '/tests'
 
       expect(last_response.status).to eq 200
+      expect(last_response.content_type).to include 'application/json'
       expect(last_response.body).to eq '[]'
     end
 
@@ -23,6 +25,7 @@ RSpec.describe Server, type: :request do
       get '/tests'
 
       expect(last_response.status).to eq 500
+      expect(last_response.content_type).to include 'application/json'
       expect(last_response.body.force_encoding('UTF-8')).to eq '{"error":"O servidor encontrou um erro"}'
     end
   end
