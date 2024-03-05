@@ -27,6 +27,10 @@ RSpec.configure do |config|
 
   config.shared_context_metadata_behavior = :apply_to_host_groups
 
-  config.before(:each) { DbService.setup_test_db }
-  config.after(:each)  { DbService.drop_test_db }
+  config.before(:each) do |test|
+    DbService.setup_test_db unless test.metadata[:skip_before]
+  end
+  config.after(:each) do |test|
+    DbService.drop_test_db unless test.metadata[:skip_after]
+  end
 end
