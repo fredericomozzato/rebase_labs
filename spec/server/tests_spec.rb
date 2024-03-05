@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-RSpec.describe Server, type: :request do
+RSpec.describe Server do
   describe 'GET /tests' do
     it 'retorna um array vazio se não existem dados no banco' do
       get '/tests'

@@ -14,6 +14,6 @@ class Server < Sinatra::Application
 
   get '/up' do
     content_type :json
-    {status: 'Servidor online'}.to_json
+    {status: 'Online'}.to_json
   end
 end

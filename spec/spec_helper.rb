@@ -5,6 +5,7 @@ require 'rack/test'
 require_relative '../server'
 require_relative '../services/db_service'
 require_relative '../services/tests_service'
+require_relative '../services/connection_service'
 
 ENV['RACK_ENV'] = 'test'
 ENV['TEST_DB'] = 'relabs_test'
