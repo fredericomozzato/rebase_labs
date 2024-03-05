@@ -1,9 +1,9 @@
 # Desafio Rebase Labs
 
-Frederico Mozzato - mar/2024
+**Frederico Mozzato** | mar/2024
 
 
-### Subindo a aplicação
+## Subindo a aplicação
 Foi configurado um arquivo do Docker Compose para que a aplicação suba com todas as dependências. Basta executar o comando
 
 ```
@@ -12,9 +12,8 @@ $ docker-compose up -d
 
 e a aplicação estará acessível no container `app`, enquanto o banco de dados estará acessível no container `db`.
 
----
 
-### Importar dados CSV
+## Importar dados CSV
 Para fazer o import dos dados do arquivo CSV foi criada uma task Rake que é executada rodando o comando:
 
 ```
@@ -36,11 +35,20 @@ O terminal retornará o seguinte texto em caso de sucesso:
 
 Com isto os dados serão copiados para uma tabela `tests` no banco de dados criado seguindo os passos acima e ficarão acessíveis no endpoint `/tests`.
 
----
 
-### Endpoints
 
-Os dados dos exames estão disponíves no endpoint `GET /tests`. O retorno é um array com todas as linhas da tabela em formato JSON:
+## Endpoints
+
+### `GET /up`
+Um endpoint usado para rapidamente checar o stuatus da aplicação. Sua resposta é um JSON indicando que a aplicac'~ao está rodando corretamente:
+
+```
+{"status":"online"}
+```
+
+### `GET /tests`
+
+Os dados dos exames adicionados ao banco. O retorno é um array com todas as linhas da tabela em formato JSON:
 
 ```
 [
@@ -68,4 +76,15 @@ Os dados dos exames estão disponíves no endpoint `GET /tests`. O retorno é um
     ...
   }
 ]
+```
+
+Caso nenhum exame tenha sido adicionado ao banco o retorno é um array vazio.
+
+
+
+## Rodando os testes
+A suite de testes foi feita usando RSpec. Para rodar os testes a partir do host use o comando:
+
+```
+$ docker exec app sh -c "rspec"
 ```
