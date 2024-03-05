@@ -28,7 +28,7 @@ class DbService < ConnectionService
     end
   end
 
-  def self.drop_test_database
+  def self.drop_test_db
     with_pg_conn do |conn|
       sql = 'DROP TABLE tests;'
       conn.exec sql

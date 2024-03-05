@@ -1,5 +1,3 @@
-# See https://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
-
 require 'byebug'
 require 'pg'
 require 'rspec'
@@ -29,5 +27,5 @@ RSpec.configure do |config|
   config.shared_context_metadata_behavior = :apply_to_host_groups
 
   config.before(:each) { DbService.setup_test_db }
-  config.after(:each)  { DbService.drop_test_database }
+  config.after(:each)  { DbService.drop_test_db }
 end
