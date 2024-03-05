@@ -7,6 +7,6 @@ class Server < Sinatra::Application
   end
 
   get '/up' do
-    'Server is up'
+    'Servidor online'
   end
 end
