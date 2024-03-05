@@ -1,3 +1,5 @@
+CREATE DATABASE relabs_test;
+
 CREATE TABLE IF NOT EXISTS tests (
   id SERIAL PRIMARY KEY,
   patient_cpf CHAR(14),

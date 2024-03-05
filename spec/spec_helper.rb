@@ -1,9 +1,12 @@
 # See https://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
 
-ENV['RACK_ENV'] ='test'
-
+require 'rspec'
 require 'rack/test'
 require_relative '../server'
+require_relative '../services/db_service'
+
+ENV['RACK_ENV'] ='test'
+ENV['TEST_DB'] = 'relabs_test'
 
 def app
   Server
@@ -21,4 +24,7 @@ RSpec.configure do |config|
   end
 
   config.shared_context_metadata_behavior = :apply_to_host_groups
+
+  config.before(:each) { DbService.setup_test_db }
+  config.after(:each)  { DbService.drop_test_database }
 end

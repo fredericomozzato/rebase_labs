@@ -9,4 +9,13 @@ RSpec.describe Server, type: :request do
       expect(last_response.body).to eq 'Servidor online'
     end
   end
+
+  describe 'GET /tests' do
+    it 'retorna um array vazio se não existem dados no banco' do
+      get '/tests'
+
+      expect(last_response.status).to eq 200
+      expect(last_response.body).to eq '[]'
+    end
+  end
 end
