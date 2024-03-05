@@ -3,12 +3,8 @@ require_relative 'connection_service'
 
 class TestsService < ConnectionService
   def self.get
-    begin
-      with_pg_conn do |conn|
-        TestsRepository.new(conn).select_all.to_json
-      end
-    rescue
-      {error: "O servidor encontrou um erro"}.to_json
+    with_pg_conn do |conn|
+      TestsRepository.new(conn).select_all.to_json
     end
   end
 

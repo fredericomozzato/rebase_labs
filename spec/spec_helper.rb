@@ -2,10 +2,11 @@
 
 require 'rspec'
 require 'rack/test'
+require 'pg'
 require_relative '../server'
 require_relative '../services/db_service'
 
-ENV['RACK_ENV'] ='test'
+ENV['RACK_ENV'] = 'test'
 ENV['TEST_DB'] = 'relabs_test'
 
 def app

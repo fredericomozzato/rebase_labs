@@ -3,7 +3,12 @@ require_relative 'services/tests_service'
 
 class Server < Sinatra::Application
   get '/tests' do
-    TestsService.get
+    begin
+      TestsService.get
+    rescue
+      status 500
+      {error: "O servidor encontrou um erro"}.to_json
+    end
   end
 
   get '/up' do
