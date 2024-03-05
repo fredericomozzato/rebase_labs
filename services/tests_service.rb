@@ -14,7 +14,7 @@ class TestsService < ConnectionService
 
     with_pg_conn do |conn|
       test_repo = TestsRepository.new conn
-      rows.slice(1..). each do |row|
+      rows.slice(1..).each do |row|
         test_repo.insert test_data: row
       end
     end

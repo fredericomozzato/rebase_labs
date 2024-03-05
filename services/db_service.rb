@@ -30,7 +30,7 @@ class DbService < ConnectionService
 
   def self.drop_test_db
     with_pg_conn do |conn|
-      sql = 'DROP TABLE tests;'
+      sql = 'DROP TABLE IF EXISTS tests;'
       conn.exec sql
     end
   end
