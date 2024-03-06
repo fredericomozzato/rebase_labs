@@ -9,6 +9,9 @@ fetch(url).then((response) => response.json())
               for (const attr in test) {
                 if (attr == 'id') {
                   continue;
+                } else if (attr == 'patient_birthdate' || attr == 'test_date') {
+                  let date = new Date(Date.parse(test[attr]));
+                  test[attr] = date.toLocaleDateString('pt-BR');
                 }
                 
                 const td = document.createElement('td');
