@@ -11,17 +11,17 @@ function fetchData() {
           .then((data) => {
             console.log(data);
             data.tests.forEach(function(test) {
-              const tr = document.createElement('tr');
+              const tr = document.createElement("tr");
               
               for (const attr in test) {
                 if (attr == 'id') {
                   continue;
-                } else if (attr == 'patient_birthdate' || attr == 'test_date') {
+                } else if (attr == "patient_birthdate" || attr == "test_date") {
                   let date = new Date(Date.parse(test[attr]));
-                  test[attr] = date.toLocaleDateString('pt-BR');
+                  test[attr] = date.toLocaleDateString("pt-BR");
                 }
                 
-                const td = document.createElement('td');
+                const td = document.createElement("td");
                 td.innerHTML = test[attr];
                 tr.appendChild(td);
               }
@@ -29,8 +29,9 @@ function fetchData() {
             })
           })
           .then(() => {
-            document.querySelector('tbody').appendChild(fragment);
+            document.querySelector("tbody").appendChild(fragment);
             document.querySelector("#page-number").innerHTML = page;
+            document.querySelector("#limit").value = limit;
           })
           .catch(function(error) {
             console.log(error);
@@ -39,7 +40,7 @@ function fetchData() {
 
 function firstPage() {
   page = 1;
-  document.querySelector('tbody').innerHTML = "";
+  document.querySelector("tbody").innerHTML = "";
   fetchData();
 }
 
@@ -47,12 +48,19 @@ function previousPage() {
   if (page > 1) {
     page--;
   }
-  document.querySelector('tbody').innerHTML = "";
+  document.querySelector("tbody").innerHTML = "";
   fetchData();
 }
 
 function nextPage() {
   page++;
-  document.querySelector('tbody').innerHTML = "";
+  document.querySelector("tbody").innerHTML = "";
+  fetchData();
+}
+
+function changeLimit() {
+  let selector = document.querySelector("#limit");
+  limit = selector.value;
+  document.querySelector("tbody").innerHTML = "";
   fetchData();
 }
