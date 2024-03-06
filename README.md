@@ -4,13 +4,13 @@
 
 
 ## Subindo a aplicação
-Foi configurado um arquivo do Docker Compose para que a aplicação suba com todas as dependências. Basta executar o comando
+Foi configurado um arquivo do Docker Compose para que a aplicação suba com todas as dependências. A partir da raíz da aplicação execute o comando
 
 ```
 $ docker-compose up -d
 ```
 
-e a aplicação estará acessível no container `app`, enquanto o banco de dados estará acessível no container `db`.
+e a aplicação estará no ar. O container `app` contém o frontend, `server` executa o backend enquanto o banco de dados estará acessível no container `db`.
 
 
 ## Importar dados CSV
@@ -20,10 +20,10 @@ Para fazer o import dos dados do arquivo CSV foi criada uma task Rake que é exe
 $ rake data:import
 ```
 
-**Importante:** O comando precisa ser rodado dentro do container `app`. Ou seja, pode-se entrar no container para executar o comando ou rodá-lo diretamente com
+**Importante:** O comando precisa ser rodado dentro do container `server`. Ou seja, pode-se entrar no container para executar o comando ou rodá-lo diretamente com
 
 ```
-$ docker exec app sh -c "rake data:import"
+$ docker exec server rake data:import
 ```
 
 O terminal retornará o seguinte texto em caso de sucesso:
@@ -39,14 +39,16 @@ Com isto os dados serão copiados para uma tabela `tests` no banco de dados cria
 
 ## Endpoints
 
-### `GET /up`
+A aplicação está dividida em uma API que expões endpoints de dados e um frontend que os consome. A API fica exposta na porta `4567` enquanto o frontend usa a porta `3000`. Abaixo estão listados os endpoints referentes ao backend para consumo de dados:
+
+### `GET:4567 /up`
 Um endpoint usado para rapidamente checar o stuatus da aplicação. Sua resposta é um JSON indicando que a aplicac'~ao está rodando corretamente:
 
 ```
 {"status":"online"}
 ```
 
-### `GET /tests`
+### `GET:4567 /tests`
 
 Os dados dos exames adicionados ao banco. O retorno é um array com todas as linhas da tabela em formato JSON:
 
@@ -83,8 +85,8 @@ Caso nenhum exame tenha sido adicionado ao banco o retorno é um array vazio.
 
 
 ## Rodando os testes
-A suite de testes foi feita usando RSpec. Para rodar os testes a partir do host use o comando:
+A suite de testes foi feita usando RSpec. Os testes foram implementados para o backend, portanto para rodá-los a partir do host use o comando:
 
 ```
-$ docker exec app sh -c "rspec"
+$ docker exec server rspec
 ```

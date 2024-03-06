@@ -1,18 +1,29 @@
 version: "3.8"
 
 services:
-  app:
-    build: .
-    container_name: app
+  backend:
+    build: ./backend
+    container_name: server
     working_dir: /app
     volumes:
-      - .:/app
+      - ./backend:/app
     networks:
       - net
     ports:
       - "4567:4567"
     depends_on:
       - database
+  frontend:
+    build: ./frontend
+    container_name: app
+    working_dir: /app
+    volumes:
+      - ./frontend:/app
+    ports:
+      - "3000:3000"
+    depends_on:
+      - database
+      - backend
   database:
     image: postgres:latest
     container_name: db
@@ -20,7 +31,7 @@ services:
       - "5432:5432"
     volumes:
       - pg_data:/var/lib/postgresql/data
-      - ./persistence/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./backend/persistence/init.sql:/docker-entrypoint-initdb.d/init.sql
     networks:
       - net
     environment:
