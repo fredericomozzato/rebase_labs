@@ -1,8 +1,15 @@
-const fragment = new DocumentFragment();
-const url = 'http://localhost:4567/tests';
+let page = 1;
+let limit = 25;
+let totalRows = 0;const fragment = new DocumentFragment();
 
-fetch(url).then((response) => response.json())
+document.addEventListener("DOMContentLoaded", fetchData());
+
+function fetchData() {
+  let url = `http://localhost:4567/tests?page=${page}&limit=${limit}`;
+  
+  fetch(url).then((response) => response.json())
           .then((data) => {
+            console.log(data);
             data.tests.forEach(function(test) {
               const tr = document.createElement('tr');
               
@@ -23,7 +30,29 @@ fetch(url).then((response) => response.json())
           })
           .then(() => {
             document.querySelector('tbody').appendChild(fragment);
+            document.querySelector("#page-number").innerHTML = page;
           })
           .catch(function(error) {
             console.log(error);
           });
+}
+
+function firstPage() {
+  page = 1;
+  document.querySelector('tbody').innerHTML = "";
+  fetchData();
+}
+
+function previousPage() {
+  if (page > 1) {
+    page--;
+  }
+  document.querySelector('tbody').innerHTML = "";
+  fetchData();
+}
+
+function nextPage() {
+  page++;
+  document.querySelector('tbody').innerHTML = "";
+  fetchData();
+}
