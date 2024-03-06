@@ -3,7 +3,7 @@ require_relative 'services/tests_service'
 
 class Server < Sinatra::Application
   get '/tests' do
-    response.headers['Access-Control-Allow-Origin'] = '*'
+    response.headers['Access-Control-Allow-Origin'] = 'http://localhost:3000'
     content_type :json
     begin
       TestsService.get
