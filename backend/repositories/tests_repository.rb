@@ -30,12 +30,12 @@ class TestsRepository
     @conn.exec sql, test_data
   end
 
-  def select_all
+  def select(offset:, limit:)
     sql = <<-SQL
-      SELECT * from tests;
+      SELECT * from tests OFFSET $1 LIMIT $2;
     SQL
 
-    @conn.exec(sql).each_row.map do |row|
+    @conn.exec(sql, [offset, limit]).each_row.map do |row|
       {
         id: row[0],
         patient_cpf: row[1],

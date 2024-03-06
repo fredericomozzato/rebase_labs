@@ -36,8 +36,25 @@ RSpec.describe Server do
           "test_date"=>"2021-08-05",
           "test_type"=>"hemácias",
           "test_type_range"=>"45-52",
-          "test_result"=>"97" }
-        ])
+          "test_result"=>"97" },
+        { "id"=>"2",
+          "patient_cpf"=>"048.108.026-04",
+          "patient_name"=>"Juliana dos Reis Filho",
+          "patient_email"=>"mariana_crist@kutch-torp.com",
+          "patient_birthdate"=>"1995-07-03",
+          "patient_address"=>"527 Rodovia Júlio",
+          "patient_city"=>"Lagoa da Canoa",
+          "patient_state"=>"Paraíba",
+          "doctor_crm"=>"B0002IQM66",
+          "doctor_crm_state"=>"SC",
+          "doctor_name"=>"Maria Helena Ramalho",
+          "doctor_email"=>"rayford@kemmer-kunze.info",
+          "test_result_token"=>"0W9I67",
+          "test_date"=>"2021-07-09",
+          "test_type"=>"vldl",
+          "test_type_range"=>"48-72",
+          "test_result"=>"41"}
+      ])
     end
 
     it 'retorna mensagem em caso de erros de conexão' do

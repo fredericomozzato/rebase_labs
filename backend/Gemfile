@@ -1,16 +1,17 @@
 source 'http://rubygems.org'
 
-gem 'sinatra'
+gem 'csv'
+gem 'pg'
 gem 'puma'
 gem 'rackup'
 gem 'rake'
-gem 'pg'
+gem 'sinatra'
 
 group :development, :test do
   gem 'byebug'
 end
 
 group :test do
-  gem 'rspec'
   gem 'rack-test'
+  gem 'rspec'
 end

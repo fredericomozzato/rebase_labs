@@ -3,9 +3,11 @@ require_relative '../repositories/tests_repository'
 require_relative 'connection_service'
 
 class TestsService < ConnectionService
-  def self.get
+  def self.get(page:, limit:)
     with_pg_conn do |conn|
-      { tests: TestsRepository.new(conn).select_all }.to_json
+      offset = limit * (page - 1)
+
+      { tests: TestsRepository.new(conn).select(offset:, limit:) }.to_json
     end
   end
 
