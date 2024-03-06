@@ -5,7 +5,7 @@ require_relative 'connection_service'
 class TestsService < ConnectionService
   def self.get
     with_pg_conn do |conn|
-      TestsRepository.new(conn).select_all.to_json
+      { tests: TestsRepository.new(conn).select_all }.to_json
     end
   end
 

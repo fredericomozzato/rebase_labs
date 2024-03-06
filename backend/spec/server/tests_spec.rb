@@ -5,9 +5,10 @@ RSpec.describe Server do
     it 'retorna um array vazio se não existem dados no banco' do
       get '/tests'
 
+      json_data = JSON.parse last_response.body, symbolize_names: true
       expect(last_response.status).to eq 200
       expect(last_response.content_type).to include 'application/json'
-      expect(last_response.body).to eq '[]'
+      expect(json_data).to eq({ tests: [] })
     end
 
     it 'retorna dados de exames do banco' do
@@ -15,12 +16,28 @@ RSpec.describe Server do
 
       get '/tests'
 
+      json_data = JSON.parse last_response.body
       expect(last_response.status).to eq 200
       expect(last_response.content_type).to include 'application/json'
-      expect(last_response.body).to include('048.973.170-88', 'Emilly Batista Neto', 'gerald.crona@ebert-quigley.com',
-                                            '2001-03-11', '165 Rua Rafaela', 'Ituverava', 'Alagoas', 'B000BJ20J4',
-                                            'PI', 'Maria Luiza Pires', 'denna@wisozk.biz', 'IQCZ17', '2021-08-05',
-                                            'hemácias', '45-52', '97')
+      expect(json_data).to eq("tests"=> [
+        { "id"=>"1",
+          "patient_cpf"=>"048.973.170-88",
+          "patient_name"=>"Emilly Batista Neto",
+          "patient_email"=>"gerald.crona@ebert-quigley.com",
+          "patient_birthdate"=>"2001-03-11",
+          "patient_address"=>"165 Rua Rafaela",
+          "patient_city"=>"Ituverava",
+          "patient_state"=>"Alagoas",
+          "doctor_crm"=>"B000BJ20J4",
+          "doctor_crm_state"=>"PI",
+          "doctor_name"=>"Maria Luiza Pires",
+          "doctor_email"=>"denna@wisozk.biz",
+          "test_result_token"=>"IQCZ17",
+          "test_date"=>"2021-08-05",
+          "test_type"=>"hemácias",
+          "test_type_range"=>"45-52",
+          "test_result"=>"97" }
+        ])
     end
 
     it 'retorna mensagem em caso de erros de conexão' do
