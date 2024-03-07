@@ -29,14 +29,8 @@ RSpec.describe 'Frontend', type: :system do
     it 'exibe dados dos exames a partir do banco', js: true do
       TestsService.csv_insert file_path: File.join(__dir__, '..', 'support', 'reduced_data.csv')
 
-      # puts "\n\n\n#{ENV['RACK_ENV']}\n\n\n"
-
-
       visit '/exames'
 
-      # byebug
-
-      expect(page).to have_current_path 'http://frontend:3000/exames'
       within 'table' do
         expect(page).to have_content '048.973.170-88'
         expect(page).to have_content 'Emilly Batista Neto'

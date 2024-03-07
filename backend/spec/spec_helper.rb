@@ -28,8 +28,6 @@ end
 Capybara.javascript_driver = :selenium
 Capybara.default_driver = :selenium
 Capybara.app_host = 'http://frontend:3000'
-Capybara.server_host = 'frontend'
-Capybara.server_port = '3000'
 
 RSpec.configure do |config|
   config.expect_with :rspec do |expectations|
