@@ -9,7 +9,6 @@ function fetchData() {
   
   fetch(url).then((response) => response.json())
           .then((data) => {
-            console.log(data);
             data.tests.forEach(function(test) {
               const tr = document.createElement("tr");
               

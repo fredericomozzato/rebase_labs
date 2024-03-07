@@ -19,6 +19,8 @@ services:
     working_dir: /app
     volumes:
       - ./frontend:/app
+    networks:
+      - net
     ports:
       - "3000:3000"
     depends_on:

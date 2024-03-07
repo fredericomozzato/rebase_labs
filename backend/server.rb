@@ -1,13 +1,20 @@
 require 'sinatra/base'
+require 'sinatra/cors'
 require_relative 'services/tests_service'
 
 class Server < Sinatra::Application
+  register Sinatra::Cors
+  set :allow_origin, 'http://localhost:3000 http://frontend:3000'
+  set :allow_methods, 'GET'
+
   DEFAULT_LIMIT = 25
   DEFAULT_PAGE = 1
 
-  get '/tests' do
-    response.headers['Access-Control-Allow-Origin'] = 'http://localhost:3000'
+  before do
     content_type :json
+  end
+
+  get '/tests' do
     begin
       page  = params[:page]&.to_i  || DEFAULT_PAGE
       limit = params[:limit]&.to_i || DEFAULT_LIMIT

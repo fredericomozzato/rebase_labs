@@ -6,12 +6,16 @@ gem 'puma'
 gem 'rackup'
 gem 'rake'
 gem 'sinatra'
+gem 'sinatra-cors'
 
 group :development, :test do
   gem 'byebug'
 end
 
 group :test do
+  gem 'capybara'
+  # gem 'cuprite'
   gem 'rack-test'
   gem 'rspec'
+  gem 'selenium-webdriver'
 end
