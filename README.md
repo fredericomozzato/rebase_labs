@@ -39,10 +39,14 @@ Com isto os dados serão copiados para uma tabela `tests` no banco de dados cria
 
 ## Endpoints
 
-A aplicação está dividida em uma API que expões endpoints de dados e um frontend que os consome. A API fica exposta na porta `4567` enquanto o frontend usa a porta `3000`. Abaixo estão listados os endpoints referentes ao backend para consumo de dados:
+A aplicação está dividida em uma API que expões endpoints de dados e um frontend que os consome. A API fica exposta na porta `4567` enquanto o frontend usa a porta `3000`. 
+
+Para acessar o frontend a URL é `http://localhost:3000/exames`.
+
+Abaixo estão listados os endpoints referentes ao backend para consumo de dados:
 
 ### `GET:4567 /up`
-Um endpoint usado para rapidamente checar o stuatus da aplicação. Sua resposta é um JSON indicando que a aplicac'~ao está rodando corretamente:
+Um endpoint usado para rapidamente checar o stuatus da aplicação. Sua resposta é um JSON indicando que a aplicação está rodando corretamente:
 
 ```
 {"status":"online"}
