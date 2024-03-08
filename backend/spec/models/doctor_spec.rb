@@ -1,5 +1,4 @@
 require 'spec_helper'
-require_relative '../../models/doctor'
 
 RSpec.describe Doctor, type: :model do
   describe '#save' do
