@@ -2,8 +2,8 @@ require 'spec_helper'
 require_relative '../../models/patient'
 
 RSpec.describe Patient, type: :model do
-  describe '#save_or_select' do
-    it 'Salva modelo no banco de dados caso este não exista' do
+  describe '#save' do
+    it 'Salva paciente no banco de dados caso este não exista' do
       patient = Patient.new(
         name: 'Fulano',
         cpf: '000.000.000-00',

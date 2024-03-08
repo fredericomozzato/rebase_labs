@@ -10,13 +10,11 @@ class ImportJob
       test_repo = TestsRepository.new conn
       rows.slice(1..).each do |row|
         # extract patient data
-        patient_data = row[0..6]
         patient = Patient.new(cpf: row[0], name: row[1], email: row[2], birthdate: row[3],
-                              address: row[4], city: row[5], state: row[6])
+                              address: row[4], city: row[5], state: row[6]).save
 
-
-        # extact doctor data
-        doctor_data = row[7..10]
+        # extract doctor data
+        doctor = Doctor.new(crm: row[7], crm_state: row[8], name: row[9], email: row[10]).save
 
         # extract test data
         test_data = row[11..12]
