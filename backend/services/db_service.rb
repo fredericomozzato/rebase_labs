@@ -10,14 +10,7 @@ class DbService < ConnectionService
 
   def self.cleanup_test_db
     with_pg_conn do |conn|
-      sql = <<-SQL
-        TRUNCATE TABLE patients,
-                       doctors,
-                       tests,
-                       test_types
-      SQL
-
-      conn.exec sql
+      conn.exec 'DROP TABLE IF EXISTS patients, doctors, tests, test_types;'
     end
   end
 end
