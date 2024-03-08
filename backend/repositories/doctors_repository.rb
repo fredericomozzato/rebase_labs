@@ -8,7 +8,8 @@ class DoctorsRepository < ConnectionService
     SQL
 
     res = with_pg_conn do |conn|
-      conn.exec sql, [doctor.name, doctor.email, doctor.crm, doctor.crm_state]
+      conn.prepare 'insert_doctor', sql
+      conn.exec_prepared 'insert_doctor', [doctor.name, doctor.email, doctor.crm, doctor.crm_state]
     end
 
     self.find_doctor_by_crm doctor.crm, doctor.crm_state
@@ -20,7 +21,8 @@ class DoctorsRepository < ConnectionService
     SQL
 
     data = with_pg_conn do |conn|
-      conn.exec sql, [crm, crm_state]
+      conn.prepare 'find_by_crm', sql
+      conn.exec_prepared 'find_by_crm', [crm, crm_state]
     end.first
 
     Doctor.new(id: data['id'].to_i, name: data['name'], email: data['email'],

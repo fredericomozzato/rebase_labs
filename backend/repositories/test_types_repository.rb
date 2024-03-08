@@ -8,7 +8,8 @@ class TestTypesRepository < ConnectionService
     SQL
 
     res = with_pg_conn do |conn|
-      conn.exec sql, [test_type.type, test_type.range, test_type.result, test_type.test_id]
+      conn.prepare 'insert_test_type', sql
+      conn.exec_prepared 'insert_test_type', [test_type.type, test_type.range, test_type.result, test_type.test_id]
     end.first
 
     self.find_by_id res['id']
@@ -20,7 +21,8 @@ class TestTypesRepository < ConnectionService
     SQL
 
     data = with_pg_conn do |conn|
-      conn.exec sql, [id]
+      conn.prepare 'find_test_type_by_id', sql
+      conn.exec_prepared 'find_test_type_by_id', [id]
     end.first
 
     TestType.new(id: data['id'].to_i, type: data['type'], range: data['type_range'],

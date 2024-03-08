@@ -8,7 +8,8 @@ class PatientsRepository < ConnectionService
     SQL
 
     res = with_pg_conn do |conn|
-      conn.exec(sql, [patient.name, patient.cpf, patient.email, patient.birthdate,
+      conn.prepare 'insert_patient', sql
+      conn.exec_prepared('insert_patient', [patient.name, patient.cpf, patient.email, patient.birthdate,
                       patient.address, patient.city, patient.state])
     end
 
@@ -21,7 +22,8 @@ class PatientsRepository < ConnectionService
     SQL
 
     data = with_pg_conn do |conn|
-      conn.exec sql, [cpf]
+      conn.prepare 'find_by_cpf', sql
+      conn.exec_prepared 'find_by_cpf', [cpf]
     end.first
 
     Patient.new(

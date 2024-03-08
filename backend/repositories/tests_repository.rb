@@ -8,7 +8,8 @@ class TestsRepository < ConnectionService
     SQL
 
     res = with_pg_conn do |conn|
-      conn.exec sql, [test.token, test.date, test.patient_id, test.doctor_id]
+      conn.prepare 'insert_test', sql
+      conn.exec_prepared 'insert_test', [test.token, test.date, test.patient_id, test.doctor_id]
     end
 
     self.find_by_token test.token
@@ -20,7 +21,8 @@ class TestsRepository < ConnectionService
     SQL
 
     data = with_pg_conn do |conn|
-      conn.exec sql, [token]
+      conn.prepare 'find_by_token', sql
+      conn.exec_prepared 'find_by_token', [token]
     end.first
 
     Test.new(id: data['id'].to_i, token: data['token'], date: data['date'],
