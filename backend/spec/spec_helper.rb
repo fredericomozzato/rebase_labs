@@ -46,6 +46,6 @@ RSpec.configure do |config|
     DbService.setup_test_db unless test.metadata[:skip_before]
   end
   config.after(:each) do |test|
-    DbService.drop_test_db unless test.metadata[:skip_after]
+    DbService.cleanup_test_db unless test.metadata[:skip_after]
   end
 end
