@@ -19,11 +19,11 @@ class DoctorsRepository < ConnectionService
       SELECT * FROM doctors WHERE crm = $1 AND crm_state = $2;
     SQL
 
-    res = with_pg_conn do |conn|
+    data = with_pg_conn do |conn|
       conn.exec sql, [crm, crm_state]
     end.first
 
-    Doctor.new(id: res['id'].to_i, name: res['name'], email: res['email'],
-                crm: res['crm'], crm_state: res['crm_state'])
+    Doctor.new(id: data['id'].to_i, name: data['name'], email: data['email'],
+                crm: data['crm'], crm_state: data['crm_state'])
   end
 end

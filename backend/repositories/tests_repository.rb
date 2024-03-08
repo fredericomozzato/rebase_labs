@@ -1,33 +1,30 @@
-require 'pg'
+require_relative '../services/connection_service'
 
-class TestsRepository
-  def initialize(conn)
-    @conn = conn
-  end
-
-  def insert(test_data:)
+class TestsRepository < ConnectionService
+  def self.save_or_select(test)
     sql = <<-SQL
-      INSERT INTO tests (
-        patient_cpf,
-        patient_name,
-        patient_email,
-        patient_birthdate,
-        patient_address,
-        patient_city,
-        patient_state,
-        doctor_crm,
-        doctor_crm_state,
-        doctor_name,
-        doctor_email,
-        test_result_token,
-        test_date,
-        test_type,
-        test_type_range,
-        test_result
-      ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16);
+      INSERT INTO tests (token, date, patient_id, doctor_id) VALUES
+      ($1, $2, $3, $4) ON CONFLICT DO NOTHING;
     SQL
 
-    @conn.exec sql, test_data
+    res = with_pg_conn do |conn|
+      conn.exec sql, [test.token, test.date, test.patient_id, test.doctor_id]
+    end
+
+    self.find_by_token test.token
+  end
+
+  def self.find_by_token(token)
+    sql = <<-SQL
+      SELECT * FROM tests WHERE token = $1;
+    SQL
+
+    data = with_pg_conn do |conn|
+      conn.exec sql, [token]
+    end.first
+
+    Test.new(id: data['id'].to_i, token: data['token'], date: data['date'],
+             patient_id: data['patient_id'], doctor_id: data['doctor_id'])
   end
 
   def select(offset:, limit:)
