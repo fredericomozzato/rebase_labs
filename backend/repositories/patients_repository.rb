@@ -31,4 +31,20 @@ class PatientsRepository < ConnectionService
       birthdate: data['birthdate'], address: data['address'], city: data['city'], state: data['state']
       )
   end
+
+  def self.select_all
+    sql = <<-SQL
+      SELECT * FROM patients;
+    SQL
+
+    res = with_pg_conn do |conn|
+      conn.prepare 'select_all_patients', sql
+      conn.exec_prepared 'select_all_patients'
+    end
+
+    res.each_row.map do |row|
+      Patient.new(id: row[0].to_i, name: row[1], cpf: row[2], email: row[3],
+                  birthdate: row[4], address: row[5], city: row[6], state: row[7])
+    end
+  end
 end

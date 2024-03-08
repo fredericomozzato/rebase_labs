@@ -4,7 +4,7 @@ class Doctor
   attr_accessor :id, :name, :email, :crm, :crm_state
 
   def initialize(id: -1, name:, email:, crm:, crm_state:)
-    @id = id
+    @id = id.to_i
     @name = name
     @email = email
     @crm = crm
@@ -13,5 +13,9 @@ class Doctor
 
   def save
     DoctorsRepository.save_or_select self
+  end
+
+  def self.all
+    DoctorsRepository.select_all
   end
 end

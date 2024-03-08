@@ -13,6 +13,8 @@ require_relative '../models/test_type'
 require_relative '../models/test'
 require_relative '../models/patient'
 require_relative '../models/doctor'
+require_relative '../jobs/import_job'
+
 
 ENV['RACK_ENV'] = 'test'
 ENV['TEST_DB'] = 'relabs_test'

@@ -29,6 +29,21 @@ class TestsRepository < ConnectionService
              patient_id: data['patient_id'], doctor_id: data['doctor_id'])
   end
 
+  def self.select_all
+    sql = <<-SQL
+      SELECT * FROM tests;
+    SQL
+
+    res = with_pg_conn do |conn|
+      conn.prepare 'select_all_tests', sql
+      conn.exec_prepared 'select_all_tests'
+    end
+
+    res.each_row.map do |row|
+      Test.new(id: row[0], token: row[1], date: row[2], patient_id: row[3], doctor_id: row[4])
+    end
+  end
+
   def select(offset:, limit:)
     sql = <<-SQL
       SELECT * from tests OFFSET $1 LIMIT $2;

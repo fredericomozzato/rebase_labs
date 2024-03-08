@@ -28,4 +28,21 @@ class TestTypesRepository < ConnectionService
     TestType.new(id: data['id'].to_i, type: data['type'], range: data['type_range'],
                  result: data['result'], test_id: data['test_id'])
   end
+
+  def self.select_all
+    sql = <<-SQL
+      SELECT * FROM test_types;
+    SQL
+
+    res = with_pg_conn do |conn|
+      conn.prepare 'select_all_types', sql
+      conn.exec_prepared 'select_all_types'
+    end
+
+    res.each_row.map do |row|
+      TestType.new(
+        id: row[0], type: row[1], range: row[2], result: row[3], test_id: row[4]
+      )
+    end
+  end
 end

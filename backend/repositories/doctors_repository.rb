@@ -25,7 +25,22 @@ class DoctorsRepository < ConnectionService
       conn.exec_prepared 'find_by_crm', [crm, crm_state]
     end.first
 
-    Doctor.new(id: data['id'].to_i, name: data['name'], email: data['email'],
+    Doctor.new(id: data['id'], name: data['name'], email: data['email'],
                 crm: data['crm'], crm_state: data['crm_state'])
+  end
+
+  def self.select_all
+    sql = <<-SQL
+      SELECT * FROM doctors;
+    SQL
+
+    res = with_pg_conn do |conn|
+      conn.prepare 'select_all_doctors', sql
+      conn.exec_prepared 'select_all_doctors'
+    end
+
+    res.each_row.map do |row|
+      Doctor.new(id: row[0], name: row[1], email: row[2], crm: row[3], crm_state: row[4])
+    end
   end
 end

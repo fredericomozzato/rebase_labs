@@ -46,4 +46,27 @@ RSpec.describe Patient, type: :model do
       expect(res.id).to eq 1
     end
   end
+
+  describe '.all' do
+    it 'Retorna todos os pacientes salvos no banco' do
+      p1 = Patient.new(name: 'Fulano', cpf: '000.000.000-00', email: 'fulano@email.com',
+                       birthdate: '1999-05-28', address: 'Rua um, N19', city: 'São Paulo',
+                       state: 'São Paulo').save
+      p2 = Patient.new(name: 'Siclana', cpf: '000.000.000-01', email: 'siclana@email.com',
+      birthdate: '1997-12-21', address: 'Rua Dois, N25', city: 'Porto Alegre',
+      state: 'Rio Grande do Sul').save
+
+      all_patients = Patient.all
+
+      expect(all_patients.count).to eq 2
+      expect(all_patients[0].name).to eq 'Fulano'
+      expect(all_patients[0].id).to eq 1
+      expect(all_patients[1].name).to eq 'Siclana'
+      expect(all_patients[1].id).to eq 2
+    end
+
+    it 'Retorna um array vazio se não existem dados no banco' do
+      expect(Patient.all).to be_empty
+    end
+  end
 end

@@ -1,13 +1,15 @@
 require 'csv'
-
 require_relative '../models/patient'
+require_relative '../models/doctor'
+require_relative '../models/test'
+require_relative '../models/test_type'
+require_relative '../services/connection_service'
 
-class ImportJob
-  def perform(file:)
-    rows = CSV.read file_path, col_sep: ';'
+class ImportJob < ConnectionService
+  def self.perform(file:)
+    rows = CSV.read file, col_sep: ';'
 
     with_pg_conn do |conn|
-      test_repo = TestsRepository.new conn
       rows.slice(1..).each do |row|
         # extract patient data
         patient = Patient.new(cpf: row[0], name: row[1], email: row[2], birthdate: row[3],
@@ -17,12 +19,10 @@ class ImportJob
         doctor = Doctor.new(crm: row[7], crm_state: row[8], name: row[9], email: row[10]).save
 
         # extract test data
-        test_data = row[11..12]
+        test = Test.new(token: row[11], date: row[12], patient_id: patient.id, doctor_id: doctor.id).save
 
         # extract test_type data
-        test_type_data = row[13..]
-
-        # test_repo.insert test_data: row
+        test_type = TestType.new(type: row[13], range: row[14], result: row[15], test_id: test.id).save
       end
     end
   end

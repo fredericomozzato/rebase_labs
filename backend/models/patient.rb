@@ -18,4 +18,8 @@ class Patient
   def save
     PatientsRepository.save_or_select self
   end
+
+  def self.all
+    PatientsRepository.select_all
+  end
 end
