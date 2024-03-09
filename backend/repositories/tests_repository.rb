@@ -41,31 +41,13 @@ class TestsRepository
     end
   end
 
-  def select(offset:, limit:)
+  def select_paginated(offset:, limit:)
     sql = <<-SQL
       SELECT * from tests OFFSET $1 LIMIT $2;
     SQL
 
     @conn.exec(sql, [offset, limit]).each_row.map do |row|
-      {
-        id: row[0],
-        patient_cpf: row[1],
-        patient_name: row[2],
-        patient_email: row[3],
-        patient_birthdate: row[4],
-        patient_address: row[5],
-        patient_city: row[6],
-        patient_state: row[7],
-        doctor_crm: row[8],
-        doctor_crm_state: row[9],
-        doctor_name: row[10],
-        doctor_email: row[11],
-        test_result_token: row[12],
-        test_date: row[13],
-        test_type: row[14],
-        test_type_range: row[15],
-        test_result: row[16]
-      }
+      Test.new(id: row[0], token: row[1], date: row[2], patient_id: row[3], doctor_id: row[4])
     end
   end
 end

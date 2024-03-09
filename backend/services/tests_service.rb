@@ -18,7 +18,7 @@ class TestsService < ConnectionService
       tests_repo = TestsRepository.new conn
       test_types_repo = TestTypesRepository.new conn
 
-        tests_repo.select_all.map do |test|
+        tests_repo.select_paginated(offset:, limit:).map do |test|
           {
             token: test.token,
             date: test.date,
