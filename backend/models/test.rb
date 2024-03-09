@@ -10,12 +10,4 @@ class Test
     @patient_id = patient_id.to_i
     @doctor_id = doctor_id.to_i
   end
-
-  def save
-    TestsRepository.save_or_select self
-  end
-
-  def self.all
-    TestsRepository.select_all
-  end
 end

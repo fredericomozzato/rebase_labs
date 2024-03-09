@@ -10,12 +10,4 @@ class Doctor
     @crm = crm
     @crm_state = crm_state
   end
-
-  def save
-    DoctorsRepository.save_or_select self
-  end
-
-  def self.all
-    DoctorsRepository.select_all
-  end
 end

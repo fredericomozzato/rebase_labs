@@ -10,12 +10,4 @@ class TestType
     @result = result.to_i
     @test_id = test_id.to_i
   end
-
-  def save
-    TestTypesRepository.save self
-  end
-
-  def self.all
-    TestTypesRepository.select_all
-  end
 end
