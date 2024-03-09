@@ -1,43 +1,40 @@
 require_relative '../services/connection_service'
 
-class TestsRepository < ConnectionService
-  def self.save_or_select(test)
+class TestsRepository
+  attr_reader :conn
+
+  def initialize(conn)
+    @conn = conn
+  end
+
+  def save(test)
     sql = <<-SQL
       INSERT INTO tests (token, date, patient_id, doctor_id) VALUES
       ($1, $2, $3, $4) ON CONFLICT DO NOTHING;
     SQL
 
-    res = with_pg_conn do |conn|
-      conn.prepare 'insert_test', sql
-      conn.exec_prepared 'insert_test', [test.token, test.date, test.patient_id, test.doctor_id]
-    end
+    @conn.exec sql, [test.token, test.date, test.patient_id, test.doctor_id]
 
-    self.find_by_token test.token
+    find_by_token test.token
   end
 
-  def self.find_by_token(token)
+  def find_by_token(token)
     sql = <<-SQL
       SELECT * FROM tests WHERE token = $1;
     SQL
 
-    data = with_pg_conn do |conn|
-      conn.prepare 'find_by_token', sql
-      conn.exec_prepared 'find_by_token', [token]
-    end.first
+    data = @conn.exec(sql, [token]).first
 
     Test.new(id: data['id'].to_i, token: data['token'], date: data['date'],
              patient_id: data['patient_id'], doctor_id: data['doctor_id'])
   end
 
-  def self.select_all
+  def select_all
     sql = <<-SQL
       SELECT * FROM tests;
     SQL
 
-    res = with_pg_conn do |conn|
-      conn.prepare 'select_all_tests', sql
-      conn.exec_prepared 'select_all_tests'
-    end
+    res = @conn.exec sql
 
     res.each_row.map do |row|
       Test.new(id: row[0], token: row[1], date: row[2], patient_id: row[3], doctor_id: row[4])

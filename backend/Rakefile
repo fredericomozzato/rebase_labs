@@ -6,7 +6,10 @@ desc 'Importar dados de exames de data.csv'
 namespace :data do
   task :import do
     puts '=== Importando dados ==='
+    start_time = Time.now
     ImportJob.perform(file: File.open(File.join(__dir__, 'persistence', 'data.csv')))
+    end_time = Time.now
     puts '=== Import concluído ==='
+    puts "Tempo de execução: #{end_time - start_time}"
   end
 end

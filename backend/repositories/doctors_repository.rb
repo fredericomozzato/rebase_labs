@@ -1,43 +1,41 @@
 require_relative '../services/connection_service'
+require 'byebug'
 
-class DoctorsRepository < ConnectionService
-  def self.save_or_select(doctor)
+class DoctorsRepository
+  attr_reader :conn
+
+  def initialize(conn)
+    @conn = conn
+  end
+
+  def save(doctor)
     sql = <<-SQL
       INSERT INTO doctors (name, email, crm, crm_state) VALUES
       ($1, $2, $3, $4) ON CONFLICT DO NOTHING;
     SQL
 
-    res = with_pg_conn do |conn|
-      conn.prepare 'insert_doctor', sql
-      conn.exec_prepared 'insert_doctor', [doctor.name, doctor.email, doctor.crm, doctor.crm_state]
-    end
+    @conn.exec sql, [doctor.name, doctor.email, doctor.crm, doctor.crm_state]
 
-    self.find_doctor_by_crm doctor.crm, doctor.crm_state
+    find_doctor_by_crm doctor.crm
   end
 
-  def self.find_doctor_by_crm(crm, crm_state)
+  def find_doctor_by_crm(crm)
     sql = <<-SQL
-      SELECT * FROM doctors WHERE crm = $1 AND crm_state = $2;
+      SELECT * FROM doctors WHERE crm = $1;
     SQL
 
-    data = with_pg_conn do |conn|
-      conn.prepare 'find_by_crm', sql
-      conn.exec_prepared 'find_by_crm', [crm, crm_state]
-    end.first
+    data = @conn.exec(sql, [crm]).first
 
     Doctor.new(id: data['id'], name: data['name'], email: data['email'],
                 crm: data['crm'], crm_state: data['crm_state'])
   end
 
-  def self.select_all
+  def select_all
     sql = <<-SQL
       SELECT * FROM doctors;
     SQL
 
-    res = with_pg_conn do |conn|
-      conn.prepare 'select_all_doctors', sql
-      conn.exec_prepared 'select_all_doctors'
-    end
+    res = @conn.exec sql
 
     res.each_row.map do |row|
       Doctor.new(id: row[0], name: row[1], email: row[2], crm: row[3], crm_state: row[4])

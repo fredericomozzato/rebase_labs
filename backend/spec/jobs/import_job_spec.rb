@@ -7,16 +7,23 @@ RSpec.describe ImportJob, type: :job do
 
       ImportJob.perform file: csv_file
 
-      expect(Patient.all.count).to eq 2
-      expect(Patient.all[0].name).to eq 'Matheus Barroso'
-      expect(Patient.all[1].name).to eq 'Emilly Batista Neto'
-      expect(Doctor.all.count).to eq 2
-      expect(Doctor.all[0].name).to eq 'Sra. Calebe Louzada'
-      expect(Doctor.all[1].name).to eq 'Maria Luiza Pires'
-      expect(Test.all.count).to eq 2
-      expect(Test.all[0].token).to eq 'T9O6AI'
-      expect(Test.all[1].token).to eq 'IQCZ17'
-      expect(TestType.all.count).to eq 26
+      ConnectionService.with_pg_conn do |conn|
+        patients = PatientsRepository.new(conn).select_all
+        doctors = DoctorsRepository.new(conn).select_all
+        tests = TestsRepository.new(conn).select_all
+        test_types = TestTypesRepository.new(conn).select_all
+
+        expect(patients.count).to eq 2
+        expect(patients[0].name).to eq 'Matheus Barroso'
+        expect(patients[1].name).to eq 'Emilly Batista Neto'
+        expect(doctors.count).to eq 2
+        expect(doctors[0].name).to eq 'Sra. Calebe Louzada'
+        expect(doctors[1].name).to eq 'Maria Luiza Pires'
+        expect(tests.count).to eq 2
+        expect(tests[0].token).to eq 'T9O6AI'
+        expect(tests[1].token).to eq 'IQCZ17'
+        expect(test_types.count).to eq 26
+      end
     end
   end
 end

@@ -4,25 +4,40 @@ require_relative '../models/doctor'
 require_relative '../models/test'
 require_relative '../models/test_type'
 require_relative '../services/connection_service'
+require_relative '../repositories/doctors_repository'
+require_relative '../repositories/patients_repository'
+require_relative '../repositories/tests_repository'
+require_relative '../repositories/test_types_repository'
 
 class ImportJob < ConnectionService
   def self.perform(file:)
+
     rows = CSV.read file, col_sep: ';'
 
     with_pg_conn do |conn|
-      rows.slice(1..).each do |row|
-        # extract patient data
-        patient = Patient.new(cpf: row[0], name: row[1], email: row[2], birthdate: row[3],
-                              address: row[4], city: row[5], state: row[6]).save
+      patients_repo = PatientsRepository.new conn
+      doctors_repo = DoctorsRepository.new conn
+      tests_repo = TestsRepository.new conn
+      test_types_repo = TestTypesRepository.new conn
 
-        # extract doctor data
-        doctor = Doctor.new(crm: row[7], crm_state: row[8], name: row[9], email: row[10]).save
+      conn.transaction do
+        rows.slice(1..).each do |row|
+          patient = patients_repo.save(Patient.new(
+            cpf: row[0], name: row[1], email: row[2], birthdate: row[3], address: row[4], city: row[5], state: row[6]
+          ))
 
-        # extract test data
-        test = Test.new(token: row[11], date: row[12], patient_id: patient.id, doctor_id: doctor.id).save
+          doctor = doctors_repo.save(Doctor.new(
+            crm: row[7], crm_state: row[8], name: row[9], email: row[10]
+          ))
 
-        # extract test_type data
-        test_type = TestType.new(type: row[13], range: row[14], result: row[15], test_id: test.id).save
+          test = tests_repo.save(Test.new(
+            token: row[11], date: row[12], patient_id: patient.id, doctor_id: doctor.id
+          ))
+
+          test_type = test_types_repo.save(TestType.new(
+            type: row[13], range: row[14], result: row[15], test_id: test.id
+          ))
+        end
       end
     end
   end
