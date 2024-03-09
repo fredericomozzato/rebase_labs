@@ -5,7 +5,7 @@ class Patient
                 :address, :city, :state
 
   def initialize(id: -1, name:, cpf:, email:, birthdate:, address:, city:, state:)
-    @id = id
+    @id = id.to_i
     @name = name
     @cpf = cpf
     @email = email
@@ -13,5 +13,9 @@ class Patient
     @address = address
     @city = city
     @state = state
+  end
+
+  def to_hash
+    { cpf:, name:, email:, birthdate: }
   end
 end

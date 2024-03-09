@@ -1,6 +1,7 @@
 require 'byebug'
 require 'capybara'
 require 'capybara/rspec'
+require 'json'
 require 'pg'
 require 'rspec'
 require 'rack/test'

@@ -2,32 +2,19 @@ require 'spec_helper'
 
 RSpec.describe TestsService do
   describe '.get' do
-    xit 'Retorna dados de exames do banco de acordo com limite' do
-      TestsService.csv_insert file_path: File.join(__dir__, '..', 'support', 'reduced_data.csv')
+    it 'Retorna dados de exames do banco de acordo com modelo esperado' do
+      ImportJob.perform(file: File.open(
+        File.join(__dir__, '..', 'support', 'reduced_data.csv')
+      ))
 
       result = TestsService.get page: 1, limit: 1
       json_data = JSON.parse result
+      expected_response = File.read(
+        File.join(__dir__, '..', 'support', 'response_spec.json')
+      )
 
       expect(result).not_to be_nil
-      expect(json_data).to eq("tests"=> [
-        { "id"=>"1",
-          "patient_cpf"=>"048.973.170-88",
-          "patient_name"=>"Emilly Batista Neto",
-          "patient_email"=>"gerald.crona@ebert-quigley.com",
-          "patient_birthdate"=>"2001-03-11",
-          "patient_address"=>"165 Rua Rafaela",
-          "patient_city"=>"Ituverava",
-          "patient_state"=>"Alagoas",
-          "doctor_crm"=>"B000BJ20J4",
-          "doctor_crm_state"=>"PI",
-          "doctor_name"=>"Maria Luiza Pires",
-          "doctor_email"=>"denna@wisozk.biz",
-          "test_result_token"=>"IQCZ17",
-          "test_date"=>"2021-08-05",
-          "test_type"=>"hemácias",
-          "test_type_range"=>"45-52",
-          "test_result"=>"97" }
-        ])
+      expect(json_data).to eq(JSON.parse(expected_response))
     end
 
     xit 'Retorna dados de exames do banco de acordo com paginação' do

@@ -10,4 +10,8 @@ class Doctor
     @crm = crm
     @crm_state = crm_state
   end
+
+  def to_hash
+    { crm:, crm_state:, name: }
+  end
 end

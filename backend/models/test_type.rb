@@ -10,4 +10,8 @@ class TestType
     @result = result.to_i
     @test_id = test_id.to_i
   end
+
+  def to_hash
+    { type:, range:, result: result.to_s}
+  end
 end

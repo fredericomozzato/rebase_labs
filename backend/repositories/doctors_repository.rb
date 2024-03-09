@@ -16,18 +16,25 @@ class DoctorsRepository
 
     @conn.exec sql, [doctor.name, doctor.email, doctor.crm, doctor.crm_state]
 
-    find_doctor_by_crm doctor.crm
+    find_by_crm doctor.crm
   end
 
-  def find_doctor_by_crm(crm)
+  def find_by_id(id)
+    sql = <<-SQL
+      SELECT * FROM doctors WHERE id = $1;
+    SQL
+
+    data = @conn.exec(sql, [id]).first
+    build_doctor data
+  end
+
+  def find_by_crm(crm)
     sql = <<-SQL
       SELECT * FROM doctors WHERE crm = $1;
     SQL
 
     data = @conn.exec(sql, [crm]).first
-
-    Doctor.new(id: data['id'], name: data['name'], email: data['email'],
-                crm: data['crm'], crm_state: data['crm_state'])
+    build_doctor data
   end
 
   def select_all
@@ -40,5 +47,15 @@ class DoctorsRepository
     res.each_row.map do |row|
       Doctor.new(id: row[0], name: row[1], email: row[2], crm: row[3], crm_state: row[4])
     end
+  end
+
+  private
+
+  def build_doctor(data)
+    Doctor.new(id: data['id'],
+               name: data['name'],
+               email: data['email'],
+               crm: data['crm'],
+               crm_state: data['crm_state'])
   end
 end
