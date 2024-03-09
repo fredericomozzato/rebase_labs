@@ -1,5 +1,5 @@
 require_relative '../services/connection_service'
-require 'byebug'
+require_relative '../models/test_type'
 
 class TestTypesRepository
   attr_reader :conn

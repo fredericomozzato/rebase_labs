@@ -1,4 +1,5 @@
 require_relative '../services/connection_service'
+require_relative '../models/test'
 
 class TestsRepository
   attr_reader :conn

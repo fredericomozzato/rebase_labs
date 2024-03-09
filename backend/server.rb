@@ -5,7 +5,7 @@ require_relative 'services/tests_service'
 class Server < Sinatra::Application
   register Sinatra::Cors
   set :allow_origin, 'http://localhost:3000 http://frontend:3000'
-  set :allow_methods, 'GET'
+  set :allow_methods, 'GET POST'
 
   DEFAULT_LIMIT = 25
   DEFAULT_PAGE = 1

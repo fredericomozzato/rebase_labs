@@ -1,5 +1,5 @@
 require_relative '../services/connection_service'
-require 'byebug'
+require_relative '../models/doctor'
 
 class DoctorsRepository
   attr_reader :conn
