@@ -29,4 +29,22 @@ class TestsService < ConnectionService
         end.to_json
     end
   end
+
+  def self.get_by_token(token:)
+    with_pg_conn do |conn|
+      patients_repo = PatientsRepository.new conn
+      doctors_repo = DoctorsRepository.new conn
+      tests_repo = TestsRepository.new conn
+      test_types_repo = TestTypesRepository.new conn
+
+      test = tests_repo.find_by_token(token)
+      {
+        token: test.token,
+        date: test.date,
+        patient: patients_repo.find_by_id(test.patient_id).to_hash,
+        doctor: doctors_repo.find_by_id(test.doctor_id).to_hash,
+        tests: test_types_repo.find_all_by_test_id(test.id).map(&:to_hash)
+      }.to_json
+    end
+  end
 end

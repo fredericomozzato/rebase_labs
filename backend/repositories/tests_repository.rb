@@ -26,6 +26,8 @@ class TestsRepository
 
     data = @conn.exec(sql, [token]).first
 
+    raise PG::NoResultError if data.nil?
+
     Test.new(id: data['id'].to_i, token: data['token'], date: data['date'],
              patient_id: data['patient_id'], doctor_id: data['doctor_id'])
   end

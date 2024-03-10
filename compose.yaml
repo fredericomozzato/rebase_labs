@@ -7,8 +7,6 @@ services:
     working_dir: /app
     volumes:
       - ./backend:/app
-    networks:
-      - net
     ports:
       - "4567:4567"
     depends_on:
@@ -19,8 +17,6 @@ services:
     working_dir: /app
     volumes:
       - ./frontend:/app
-    networks:
-      - net
     ports:
       - "3000:3000"
     depends_on:
@@ -34,15 +30,9 @@ services:
     volumes:
       - pg_data:/var/lib/postgresql/data
       - ./backend/persistence/init.sql:/docker-entrypoint-initdb.d/init.sql
-    networks:
-      - net
     environment:
       POSTGRES_USER: relabs
       POSTGRES_PASSWORD: relabs
-    
-networks:
-  net:
-    driver: bridge
 
 volumes:
   pg_data:

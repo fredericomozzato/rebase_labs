@@ -15,14 +15,23 @@ class Server < Sinatra::Application
   end
 
   get '/tests' do
-    begin
-      page  = params[:page]&.to_i  || DEFAULT_PAGE
-      limit = params[:limit]&.to_i || DEFAULT_LIMIT
-      TestsService.get(page:, limit:)
-    rescue
-      status 500
-      {error: "O servidor encontrou um erro"}.to_json
-    end
+  begin
+    page  = params[:page]&.to_i  || DEFAULT_PAGE
+    limit = params[:limit]&.to_i || DEFAULT_LIMIT
+    TestsService.get(page:, limit:)
+  rescue
+    status 500
+    {error: "O servidor encontrou um erro"}.to_json
+  end
+  end
+
+  get '/tests/:token' do
+  begin
+    TestsService.get_by_token token: params[:token]
+  rescue PG::NoResultError
+    status 404
+    { error: 'Teste não encontrado' }.to_json
+  end
   end
 
   get '/up' do
