@@ -9,8 +9,11 @@ services:
       - ./backend:/app
     ports:
       - "4567:4567"
+    environment:
+      - REDIS_URL=redis://redis:6379/0
     depends_on:
       - database
+      - redis
   frontend:
     build: ./frontend
     container_name: app
@@ -33,6 +36,9 @@ services:
     environment:
       POSTGRES_USER: relabs
       POSTGRES_PASSWORD: relabs
+  redis:
+    image: redis
+    container_name: redis
 
 volumes:
   pg_data:

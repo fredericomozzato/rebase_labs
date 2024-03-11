@@ -4,8 +4,9 @@ RSpec.describe ImportJob, type: :job do
   describe '.perform' do
     it 'Importa dados de arquivo CSV para o banco de dados' do
       csv_file = File.open(File.join(__dir__, '..', 'support', 'extended_data.csv'))
+      rows = CSV.read csv_file, col_sep: ';'
 
-      ImportJob.perform file: csv_file
+      ImportJob.new.perform rows
 
       ConnectionService.with_pg_conn do |conn|
         patients = PatientsRepository.new(conn).select_all
@@ -24,12 +25,6 @@ RSpec.describe ImportJob, type: :job do
         expect(tests[1].token).to eq 'IQCZ17'
         expect(test_types.count).to eq 26
       end
-    end
-
-    it 'Levanta exceção caso arquivo não tenha o cabeçalho correto' do
-      bad_csv_file = File.open(File.join(__dir__, '..', 'support', 'bad_file.csv'))
-
-      expect { ImportJob.perform(file: bad_csv_file) }.to raise_error CustomErrors::InvalidCsvHeader
     end
   end
 end

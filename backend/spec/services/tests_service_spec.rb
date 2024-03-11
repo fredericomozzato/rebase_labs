@@ -3,9 +3,9 @@ require 'spec_helper'
 RSpec.describe TestsService do
   describe '.get' do
     it 'Retorna dados de exames do banco de acordo com modelo esperado' do
-      ImportJob.perform(file: File.open(
-        File.join(__dir__, '..', 'support', 'reduced_data.csv')
-      ))
+      csv_file = File.open(File.join(__dir__, '..', 'support', 'reduced_data.csv'))
+      rows = CSV.read csv_file, col_sep: ';'
+      ImportJob.new.perform rows
 
       result = TestsService.get page: 1, limit: 10
       json_data = JSON.parse result
@@ -18,9 +18,9 @@ RSpec.describe TestsService do
     end
 
     it 'Retorna dados de exames do banco de acordo com paginação' do
-      ImportJob.perform(file: File.open(
-        File.join(__dir__, '..', 'support', 'reduced_data.csv')
-      ))
+      csv_file = File.open(File.join(__dir__, '..', 'support', 'reduced_data.csv'))
+      rows = CSV.read csv_file, col_sep: ';'
+      ImportJob.new.perform rows
 
       result = TestsService.get page: 1, limit: 1
       json_data = JSON.parse result, symbolize_names: true

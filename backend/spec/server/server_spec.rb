@@ -12,9 +12,9 @@ RSpec.describe Server do
     end
 
     it 'retorna dados de exames do banco' do
-      ImportJob.perform(file: File.open(
-        File.join(__dir__, '..', 'support', 'reduced_data.csv')
-      ))
+      csv_file = File.open(File.join(__dir__, '..', 'support', 'reduced_data.csv'))
+      rows = CSV.read csv_file, col_sep: ';'
+      ImportJob.new.perform(rows)
 
       get '/tests'
 
@@ -39,11 +39,11 @@ RSpec.describe Server do
 
   describe 'GET /tests/:token' do
     it 'Retorna teste de acordo com o token pesquisado' do
-      ImportJob.perform(file: File.open(
-        File.join(__dir__, '..', 'support', 'extended_data.csv')
-      ))
-
+      csv_file = File.open(File.join(__dir__, '..', 'support', 'extended_data.csv'))
+      rows = CSV.read csv_file, col_sep: ';'
+      ImportJob.new.perform rows
       token = 'T9O6AI'
+
       get "/tests/#{token}"
 
       json_data = JSON.parse last_response.body, symbolize_names: true
@@ -88,8 +88,10 @@ RSpec.describe Server do
   end
 
   describe 'POST /import' do
-    it 'Importa dados de arquivo enviado para o banco' do
+    it 'Retorna accepted e enfileira job para importar dados' do
       file = File.open(File.join(__dir__, '..', 'support', 'extended_data.csv'))
+      import_job_spy = spy ImportJob
+      stub_const 'ImportJob', import_job_spy
 
       post '/import', file: Rack::Test::UploadedFile.new(file, 'text/csv')
 
@@ -98,7 +100,7 @@ RSpec.describe Server do
       end
 
       expect(last_response.status).to eq 202
-      expect(tests.count).to eq 2
+      expect(import_job_spy).to have_received(:perform_async).once
     end
 
     it 'Retorna status 415 no caso de upload de arquivos com extensão diferente de csv' do
