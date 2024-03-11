@@ -21,7 +21,9 @@ class ImportJob < ConnectionService
       test_types_repo = TestTypesRepository.new conn
 
       conn.transaction do
-        rows.slice(1..).each do |row|
+        rows.slice(1..).each_with_index do |row, i|
+          # puts "\nROW: #{i}\n"
+
           patient = patients_repo.save(Patient.new(
             cpf: row[0], name: row[1], email: row[2], birthdate: row[3], address: row[4], city: row[5], state: row[6]
           ))

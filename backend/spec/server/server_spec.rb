@@ -86,4 +86,19 @@ RSpec.describe Server do
       expect(json_data).to eq({error: "Teste não encontrado"})
     end
   end
+
+  describe 'POST /import' do
+    it 'Importa dados de arquivo enviado para o banco' do
+      file = File.open(File.join(__dir__, '..', 'support', 'extended_data.csv'))
+
+      post('/import', file: Rack::Test::UploadedFile.new(file, 'text/csv'))
+
+      tests = ConnectionService.with_pg_conn do |conn|
+        TestsRepository.new(conn).select_all
+      end
+
+      expect(last_response.status).to eq 202
+      expect(tests.count).to eq 2
+    end
+  end
 end

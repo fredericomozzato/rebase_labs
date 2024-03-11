@@ -1,6 +1,7 @@
 require 'sinatra/base'
 require 'sinatra/cors'
 require_relative 'services/tests_service'
+require_relative 'services/import_service'
 
 class Server < Sinatra::Application
   register Sinatra::Cors
@@ -12,6 +13,11 @@ class Server < Sinatra::Application
 
   before do
     content_type :json
+  end
+
+  get '/up' do
+    content_type :json
+    {status: 'Online'}.to_json
   end
 
   get '/tests' do
@@ -34,8 +40,9 @@ class Server < Sinatra::Application
   end
   end
 
-  get '/up' do
-    content_type :json
-    {status: 'Online'}.to_json
+  post '/import' do
+    file = params[:file][:tempfile]
+    ImportService.import file
+    status 202
   end
 end
