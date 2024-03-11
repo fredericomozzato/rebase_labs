@@ -25,5 +25,11 @@ RSpec.describe ImportJob, type: :job do
         expect(test_types.count).to eq 26
       end
     end
+
+    it 'Levanta exceção caso arquivo não tenha o cabeçalho correto' do
+      bad_csv_file = File.open(File.join(__dir__, '..', 'support', 'bad_file.csv'))
+
+      expect { ImportJob.perform(file: bad_csv_file) }.to raise_error CustomErrors::InvalidCsvHeader
+    end
   end
 end

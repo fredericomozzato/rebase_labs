@@ -14,7 +14,7 @@ class ImportJob < ConnectionService
   def self.perform(file:)
     self.validate_headers file
 
-    rows = CSV.read file, col_sep: ';'
+    rows = CSV.read file, col_sep: ';', skip_blanks: true
 
     with_pg_conn do |conn|
       patients_repo = PatientsRepository.new conn
