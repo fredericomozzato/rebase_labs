@@ -1,4 +1,12 @@
+# frozen_string_literal: true
+
 module CustomErrors
+  class TestNotFound < StandardError
+    def message
+      'Teste não encontrado'
+    end
+  end
+
   class InvalidCsvHeader < StandardError
     def message
       'Cabeçalho fora das especificações'

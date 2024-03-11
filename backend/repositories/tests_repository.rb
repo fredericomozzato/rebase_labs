@@ -1,3 +1,4 @@
+require_relative '../lib/custom_errors'
 require_relative '../services/connection_service'
 require_relative '../models/test'
 
@@ -26,7 +27,7 @@ class TestsRepository
 
     data = @conn.exec(sql, [token]).first
 
-    raise PG::NoResultError if data.nil?
+    raise CustomErrors::TestNotFound if data.nil?
 
     Test.new(id: data['id'].to_i, token: data['token'], date: data['date'],
              patient_id: data['patient_id'], doctor_id: data['doctor_id'])

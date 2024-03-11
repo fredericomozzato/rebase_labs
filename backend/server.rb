@@ -8,8 +8,8 @@ class Server < Sinatra::Application
   include CustomErrors
 
   register Sinatra::Cors
-  set :allow_origin, 'http://localhost:3000 http://frontend:3000'
-  set :allow_methods, 'GET POST'
+  set :allow_origin, 'http://localhost:3000 http://frontend:3000'.freeze
+  set :allow_methods, 'GET POST'.freeze
 
   DEFAULT_LIMIT = 25
   DEFAULT_PAGE = 1
@@ -20,7 +20,7 @@ class Server < Sinatra::Application
 
   get '/up' do
     content_type :json
-    {status: 'Online'}.to_json
+    { status: 'Online' }.to_json
   end
 
   get '/tests' do
@@ -30,16 +30,16 @@ class Server < Sinatra::Application
     TestsService.get(page:, limit:)
   rescue
     status 500
-    {error: "O servidor encontrou um erro"}.to_json
+    { error: 'O servidor encontrou um erro' }.to_json
   end
   end
 
   get '/tests/:token' do
   begin
     TestsService.get_by_token token: params[:token]
-  rescue PG::NoResultError
+  rescue TestNotFound => e
     status 404
-    { error: 'Teste não encontrado' }.to_json
+    { error: e.message }.to_json
   end
   end
 
