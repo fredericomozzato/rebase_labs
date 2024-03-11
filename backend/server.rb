@@ -45,11 +45,10 @@ class Server < Sinatra::Application
 
   post '/import' do
   begin
-    file = params[:file][:tempfile]
-    ImportService.import file
+    ImportService.import params[:file]
     status 202
-  rescue InvalidHeadersError => e
-    status 400
+  rescue InvalidFileExtension => e
+    status 415
     { error: e.message }.to_json
   end
   end

@@ -51,7 +51,7 @@ class ImportJob < ConnectionService
 
     actual_headers = CSV.read(file, headers: true).headers
 
-    raise CustomErrors::InvalidHeadersError.new unless actual_headers == expected_headers
+    raise CustomErrors::InvalidCsvHeader.new unless actual_headers == expected_headers
   end
   private_class_method :validate_headers
 end

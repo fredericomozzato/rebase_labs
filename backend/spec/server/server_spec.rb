@@ -101,14 +101,14 @@ RSpec.describe Server do
       expect(tests.count).to eq 2
     end
 
-    it 'Retorna status 400 em caso de arquivos não condizentes com a estrutura esperada' do
-      bad_file = File.open(File.join(__dir__, '..', 'support', 'bad_file.csv'))
+    it 'Retorna status 415 no caso de upload de arquivos com extensão diferente de csv' do
+      bad_file = File.open(File.join(__dir__, '..', 'support', 'wrong_extension.txt'))
 
-      post 'import', file: Rack::Test::UploadedFile.new(bad_file, 'text/csv')
+      post 'import', file: Rack::Test::UploadedFile.new(bad_file)
 
       json_response = JSON.parse last_response.body, symbolize_names: true
-      expect(last_response.status).to eq 400
-      expect(json_response).to eq({ error: 'Cabeçalho fora das especificações' })
+      expect(last_response.status).to eq 415
+      expect(json_response).to eq({ error: 'Arquivo não é CSV' })
     end
   end
 end
