@@ -1,4 +1,5 @@
 require 'csv'
+require_relative '../lib/custom_errors'
 require_relative '../models/patient'
 require_relative '../models/doctor'
 require_relative '../models/test'
@@ -11,6 +12,7 @@ require_relative '../repositories/test_types_repository'
 
 class ImportJob < ConnectionService
   def self.perform(file:)
+    self.validate_headers file
 
     rows = CSV.read file, col_sep: ';'
 
@@ -22,8 +24,6 @@ class ImportJob < ConnectionService
 
       conn.transaction do
         rows.slice(1..).each_with_index do |row, i|
-          # puts "\nROW: #{i}\n"
-
           patient = patients_repo.save(Patient.new(
             cpf: row[0], name: row[1], email: row[2], birthdate: row[3], address: row[4], city: row[5], state: row[6]
           ))
@@ -43,4 +43,15 @@ class ImportJob < ConnectionService
       end
     end
   end
+
+  def self.validate_headers(file)
+    expected_headers = [
+      "cpf;nome paciente;email paciente;data nascimento paciente;endereço/rua paciente;cidade paciente;estado patiente;crm médico;crm médico estado;nome médico;email médico;token resultado exame;data exame;tipo exame;limites tipo exame;resultado tipo exame"
+    ]
+
+    actual_headers = CSV.read(file, headers: true).headers
+
+    raise CustomErrors::InvalidHeadersError.new unless actual_headers == expected_headers
+  end
+  private_class_method :validate_headers
 end

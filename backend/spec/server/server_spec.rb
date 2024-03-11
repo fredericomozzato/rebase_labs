@@ -91,7 +91,7 @@ RSpec.describe Server do
     it 'Importa dados de arquivo enviado para o banco' do
       file = File.open(File.join(__dir__, '..', 'support', 'extended_data.csv'))
 
-      post('/import', file: Rack::Test::UploadedFile.new(file, 'text/csv'))
+      post '/import', file: Rack::Test::UploadedFile.new(file, 'text/csv')
 
       tests = ConnectionService.with_pg_conn do |conn|
         TestsRepository.new(conn).select_all
@@ -99,6 +99,16 @@ RSpec.describe Server do
 
       expect(last_response.status).to eq 202
       expect(tests.count).to eq 2
+    end
+
+    it 'Retorna status 400 em caso de arquivos não condizentes com a estrutura esperada' do
+      bad_file = File.open(File.join(__dir__, '..', 'support', 'bad_file.csv'))
+
+      post 'import', file: Rack::Test::UploadedFile.new(bad_file, 'text/csv')
+
+      json_response = JSON.parse last_response.body, symbolize_names: true
+      expect(last_response.status).to eq 400
+      expect(json_response).to eq({ error: 'Cabeçalho fora das especificações' })
     end
   end
 end

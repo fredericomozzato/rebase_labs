@@ -1,9 +1,12 @@
 require 'sinatra/base'
 require 'sinatra/cors'
+require_relative 'lib/custom_errors'
 require_relative 'services/tests_service'
 require_relative 'services/import_service'
 
 class Server < Sinatra::Application
+  include CustomErrors
+
   register Sinatra::Cors
   set :allow_origin, 'http://localhost:3000 http://frontend:3000'
   set :allow_methods, 'GET POST'
@@ -41,8 +44,13 @@ class Server < Sinatra::Application
   end
 
   post '/import' do
+  begin
     file = params[:file][:tempfile]
     ImportService.import file
     status 202
+  rescue InvalidHeadersError => e
+    status 400
+    { error: e.message }.to_json
+  end
   end
 end
