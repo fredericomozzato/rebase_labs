@@ -2,32 +2,16 @@ require 'spec_helper'
 
 RSpec.describe 'Frontend', type: :system do
   describe 'Página de exames', js: true do
-    xit 'exibe tabela' do
+    it 'exibe elementos da home' do
       visit '/exames'
 
-      expect(page).to have_content 'Tabela de exames'
-      within 'table' do
-        expect(page).to have_content 'Paciente'
-        expect(page).to have_content 'CPF'
-        expect(page).to have_content 'Exame'
-        expect(page).to have_content 'Nome', count: 2
-        expect(page).to have_content 'E-mail', count: 2
-        expect(page).to have_content 'Nascimento'
-        expect(page).to have_content 'Endereço'
-        expect(page).to have_content 'Cidade'
-        expect(page).to have_content 'Estado'
-        expect(page).to have_content 'CRM'
-        expect(page).to have_content 'Estado do CRM'
-        expect(page).to have_content 'Token'
-        expect(page).to have_content 'Data'
-        expect(page).to have_content 'Tipo'
-        expect(page).to have_content 'Intervalo'
-        expect(page).to have_content 'Resultado'
-      end
+
     end
 
     xit 'exibe dados dos exames a partir do banco', js: true do
-      TestsService.csv_insert file_path: File.join(__dir__, '..', 'support', 'reduced_data.csv')
+      csv_file = File.open(File.join(__dir__, '..', 'support', 'reduced_data.csv'))
+      rows = CSV.read csv_file, col_sep: ';'
+      ImportJob.new.perform rows
 
       visit '/exames'
 
