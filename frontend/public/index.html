@@ -10,15 +10,34 @@
     <link rel="stylesheet" href="styles.css">
   </head>
   <body class="bg-light">
+    <nav class="navbar navbar-expand bg-white shadow-sm border-bottom mb-3">
+      <div class="container">
+        <a class="navbar-brand display-7 fs-3">RebaseLabs</a>
+        <form class="d-flex" 
+              role="search">
+          <input class="form-control me-2" 
+                 type="search" 
+                 placeholder="Token" 
+                 aria-label="Search">
+          <button class="btn btn-outline-primary" 
+                  type="submit">Buscar</button>
+          <button class="btn btn-outline-primary ms-2" 
+                  type="submit">Importar</button>
+        </form>
+      </div>
+    </nav>
     <div class="container">
-      <h1>Exames</h1>
+      
+      <div class="text-center mb-4">
+        <h1 class="display-4">Exames</h1>
+      </div>
       
       <section id="tests-list" 
                class="mb-5 d-flex flex-wrap gap-3 justify-content-center">
       </section>
       
       <div id="navigation-btns" 
-           class="d-flex gap-1 justify-content-center align-items-center">
+           class="d-flex gap-1 justify-content-center align-items-center mb-4">
         <button class="btn btn-outline-dark" 
                 title="Primeira"
                 onclick="firstPage()">&larr;&larr;</button>

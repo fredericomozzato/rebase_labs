@@ -7,7 +7,8 @@ namespace :data do
   task :import do
     puts '=== Importando dados ==='
     start_time = Time.now
-    ImportJob.perform(file: File.open(File.join(__dir__, 'persistence', 'data.csv')))
+    csv_file = File.open(File.join(__dir__, 'persistence', 'data.csv'))
+    ImportJob.new.perform CSV.read csv_file, col_sep: ';'
     end_time = Time.now
     puts '=== Import concluído ==='
     puts "Tempo de execução: #{end_time - start_time}"

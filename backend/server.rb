@@ -9,7 +9,7 @@ class Server < Sinatra::Application
 
   register Sinatra::Cors
   set :allow_origin, 'http://localhost:3000 http://frontend:3000'.freeze
-  set :allow_methods, 'GET POST'.freeze
+  set :allow_methods, 'GET POST OPTIONS'.freeze
 
   DEFAULT_LIMIT = 25
   DEFAULT_PAGE = 1

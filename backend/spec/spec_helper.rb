@@ -35,6 +35,7 @@ end
 
 Capybara.javascript_driver = :selenium
 Capybara.default_driver = :selenium
+Capybara.server_host = 'localhost'
 Capybara.app_host = 'http://frontend:3000'
 
 RSpec.configure do |config|

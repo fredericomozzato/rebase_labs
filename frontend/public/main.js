@@ -3,7 +3,7 @@ let limit = 10;
 let totalRows = 0;
 const fragment = new DocumentFragment();
 
-document.addEventListener("DOMContentLoaded", fetchData());
+document.addEventListener("DOMContentLoaded", fetchData);
 
 function fetchData() {
   let url = `http://localhost:4567/tests?page=${page}&limit=${limit}`;
@@ -101,29 +101,23 @@ function fetchData() {
           });
 }
 
-// function firstPage() {
-//   page = 1;
-//   document.querySelector("tbody").innerHTML = "";
-//   fetchData();
-// }
+function firstPage() {
+  page = 1;
+  document.querySelector("#tests-list").innerHTML = "";
+  fetchData();
+}
 
-// function previousPage() {
-//   if (page > 1) {
-//     page--;
-//   }
-//   document.querySelector("tbody").innerHTML = "";
-//   fetchData();
-// }
+function previousPage() {
+  if (page > 1) {
+    page--;
+  }
+  document.querySelector("#tests-list").innerHTML = "";
+  fetchData();
+}
 
-// function nextPage() {
-//   page++;
-//   document.querySelector("tbody").innerHTML = "";
-//   fetchData();
-// }
-
-// function changeLimit() {
-//   let selector = document.querySelector("#limit");
-//   limit = selector.value;
-//   document.querySelector("tbody").innerHTML = "";
-//   fetchData();
-// }
+function nextPage() {
+  page++;
+  document.querySelector("#tests-list").innerHTML = "";
+  console.log(page);
+  fetchData();
+}

@@ -2,10 +2,23 @@ require 'spec_helper'
 
 RSpec.describe 'Frontend', type: :system do
   describe 'Página de exames', js: true do
-    it 'exibe elementos da home' do
+    xit 'exibe elementos da home' do
+      csv_file = File.open(File.join(__dir__, '..', 'support', 'reduced_data.csv'))
+      rows = CSV.read csv_file, col_sep: ';'
+
+      ImportJob.new.perform rows
+
       visit '/exames'
 
-
+      within "#tests-list" do
+        expect(page).to have_content 'T9O6AI', count: 1
+        expect(page).to have_content 'Matheus Barroso', count: 1
+        expect(page).to have_content 'Sra. Calebe Louzada', count: 1
+        expect(page).to have_content 'IQCZ17', count: 1
+        expect(page).to have_content 'Emilly Batista Neto', count: 1
+        expect(page).to have_content 'Maria Luiza Pires', count: 1
+        expect(page).to have_link 'Detalhes', count: 2
+      end
     end
 
     xit 'exibe dados dos exames a partir do banco', js: true do
