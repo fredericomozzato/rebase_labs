@@ -29,7 +29,7 @@ function fetchData() {
               // main card structure
               const card = document.createElement("div");
               card.className = "card shadow shadow-sm";
-              card.setAttribute("style", "width: 33rem;")
+              card.setAttribute("style", "width: 30rem;")
               const cardBody = document.createElement("div");
               cardBody.className = "card-body";
               const row = document.createElement("div");
@@ -51,7 +51,7 @@ function fetchData() {
               const btn = document.createElement("a");
               btn.className = "btn btn-sm btn-outline-primary";
               btn.innerText = "Detalhes";
-              btn.setAttribute("href", "/");
+              btn.setAttribute("href", `exames/${test.token}`);
               
               col1.append(token, dateElement, btn);
               

@@ -30,4 +30,11 @@ class App < Sinatra::Base
 
     redirect to('/exames')
   end
+
+  get '/exames/:token' do
+    @test = ApiService.search token: params[:token]
+    p @test
+
+    erb :test
+  end
 end
