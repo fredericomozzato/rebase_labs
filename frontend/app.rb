@@ -1,24 +1,32 @@
 require 'sinatra/base'
+require 'rack-flash'
 require_relative 'services/api_service'
 
 class App < Sinatra::Base
+  enable :sessions
+  use Rack::Flash
+
   get '/' do
     redirect to('/exames')
   end
 
   get '/exames' do
-    content_type 'text/html'
-    send_file File.join(settings.public_folder, 'index.html')
+    erb :index
   end
 
   post '/upload' do
-    # {"file"=>{"filename"=>"reduced_data.csv", "type"=>"text/csv", "name"=>"file", "tempfile"=>#<Tempfile:/tmp/RackMultipart20240313-7-hyc79k.csv>, "head"=>"Content-Disposition: form-data; name=\"file\"; filename=\"reduced_data.csv\"\r\nContent-Type: text/csv\r\n"}}
+    if params.empty?
+      flash[:alert] = 'Anexe um arquivo válido'
+      return redirect to('/exames')
+    end
 
-    # p type
-    # p file
+    res = ApiService.upload(params:)
 
-    # call upload service with type and tempfile
-    ApiService.upload(params:)
+    if res.status == 202
+      flash[:notice] = 'Seu upload está sendo processado'
+    else
+      flash[:alert] = 'Erro. Arquivo não pode ser processado'
+    end
 
     redirect to('/exames')
   end

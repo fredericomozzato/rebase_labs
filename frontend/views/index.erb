@@ -30,7 +30,19 @@
         </div>
       </div>
     </nav>
+    
     <div class="container">
+      
+      <% if flash.has? :notice %>
+        <div class="alert alert-info text-center">
+          <%= flash[:notice] %>
+        </div>
+      <% elsif flash.has? :alert %>
+        <div class="alert alert-danger text-center">
+          <%= flash[:alert] %>
+        </div>
+      <% end %>
+      
       
       <div class="text-center mb-4">
         <h1 class="display-4">Exames</h1>
