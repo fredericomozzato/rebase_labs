@@ -13,17 +13,21 @@
     <nav class="navbar navbar-expand bg-white shadow-sm border-bottom mb-3">
       <div class="container">
         <a class="navbar-brand display-7 fs-3">RebaseLabs</a>
-        <form class="d-flex" 
-              role="search">
-          <input class="form-control me-2" 
-                 type="search" 
-                 placeholder="Token" 
-                 aria-label="Search">
-          <button class="btn btn-outline-primary" 
-                  type="submit">Buscar</button>
-          <button class="btn btn-outline-primary ms-2" 
-                  type="submit">Importar</button>
-        </form>
+        <div id="nav-form"
+             class="d-flex flex-column">
+          <form class="d-flex" 
+                role="search">
+            <input class="form-control me-2" 
+                   type="search" 
+                   placeholder="Token" 
+                   aria-label="Search">
+            <button class="btn btn-outline-primary" 
+                    type="submit">Buscar</button>
+            <button class="btn btn-outline-dark ms-2" 
+                    type="button"
+                    onclick="renderImportForm()">Importar</button>
+          </form>
+        </div>
       </div>
     </nav>
     <div class="container">

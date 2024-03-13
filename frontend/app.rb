@@ -9,4 +9,9 @@ class App < Sinatra::Base
     content_type 'text/html'
     send_file File.join(settings.public_folder, 'index.html')
   end
+
+  get '/import' do
+    content_type 'text/html'
+    send_file File.join(settings.public_folder, 'import.html')
+  end
 end
