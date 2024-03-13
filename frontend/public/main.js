@@ -104,7 +104,7 @@ function fetchData() {
 function renderImportForm() {
   // form
   const importForm = document.createElement("form");
-  importForm.setAttribute("action", "/");
+  importForm.setAttribute("action", "/upload");
   importForm.setAttribute("method", "post");
   importForm.setAttribute("accept", "text/csv");
   importForm.setAttribute("enctype", "multipart/form-data");
@@ -124,7 +124,7 @@ function renderImportForm() {
   cancelBtn.setAttribute("onclick", "redirectHome()");
   cancelBtn.setAttribute("type", "button");
   cancelBtn.innerText = "Cancelar";
-  cancelBtn.className = "btn btn-outline-danger ms-2"
+  cancelBtn.className = "btn btn-outline-danger"
     // input group
   const inputGroup = document.createElement("div");
   inputGroup.className = "d-flex flex-row gap-2"

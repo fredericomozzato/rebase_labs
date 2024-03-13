@@ -1,5 +1,7 @@
 source 'http://rubygems.org'
 
-gem 'sinatra'
+gem 'faraday'
+gem 'faraday-multipart'
 gem 'puma'
 gem 'rackup'
+gem 'sinatra'
