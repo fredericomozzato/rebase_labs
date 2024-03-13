@@ -1,0 +1,9 @@
+<% if flash.has? :notice %>
+  <div class="alert alert-info text-center">
+    <%= flash[:notice] %>
+  </div>
+<% elsif flash.has? :alert %>
+  <div class="alert alert-danger text-center">
+    <%= flash[:alert] %>
+  </div>
+<% end %>

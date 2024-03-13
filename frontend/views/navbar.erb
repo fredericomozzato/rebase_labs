@@ -1,0 +1,25 @@
+<nav class="navbar navbar-expand bg-white shadow-sm border-bottom">
+  <div class="container">
+    <a class="navbar-brand display-7 fs-3"
+        href="/exames">RebaseLabs</a>
+    <div id="nav-form"
+          class="d-flex flex-column">
+      <form class="d-flex" 
+            role="search"
+            action="/search"
+            method="get">
+        <input class="form-control me-2" 
+                type="search" 
+                placeholder="Token (6 caracteres)" 
+                name="token">
+        <button id="search-btn"
+                class="btn btn-outline-primary" 
+                type="submit">Buscar</button>
+        <button id="import-btn"
+                class="btn btn-outline-dark ms-2" 
+                type="button"
+                onclick="renderImportForm()">Importar</button>
+      </form>
+    </div>
+  </div>
+</nav>
