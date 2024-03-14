@@ -8,30 +8,31 @@
         <a href="/exames"
            class="btn btn-outline-primary">&larr; Voltar</a>
       </div>
+      
       <hr>
       
       <div class="row">
         <div id="patient-info"
              class="col">
           <h2>Paciente</h2>
-          <dl>
+          <dl class="list-group list-group-flush">
             <dt>Nome:</dt>
-            <dd><%= @test[:patient][:name] %></dd>
+            <dd class="list-group-item"><%= @test[:patient][:name] %></dd>
             <dt>E-mail:</dt>
-            <dd><%= @test[:patient][:email] %></dd>
+            <dd class="list-group-item"><%= @test[:patient][:email] %></dd>
             <dt>Nascimento:</dt>
-            <dd><%= Date.parse(@test[:patient][:birthdate]).strftime('%d/%m/%Y') %></dd>
+            <dd class="list-group-item"><%= Date.parse(@test[:patient][:birthdate]).strftime('%d/%m/%Y') %></dd>
           </dl>
         </div>
         
         <div id="doctor-info"
              class="col">
           <h2>Médico</h2>
-          <dl>
+          <dl class="list-group list-group-flush">
             <dt>Nome:</dt>
-            <dd><%= @test[:doctor][:name] %></dd>
+            <dd class="list-group-item"><%= @test[:doctor][:name] %></dd>
             <dt>CRM:</dt>
-            <dd><%= "#{@test[:doctor][:crm]}/#{@test[:doctor][:crm_state]}" %></dd>
+            <dd class="list-group-item"><%= "#{@test[:doctor][:crm]}/#{@test[:doctor][:crm_state]}" %></dd>
           </dl>
         </div>
       </div>
@@ -43,9 +44,11 @@
       
       <table class="table table-hover">
         <thead>
-          <th>Tipo</th>
-          <th>Intervalo</th>
-          <th>Resultado</th>
+          <tr>
+            <th>Tipo</th>
+            <th>Intervalo</th>
+            <th>Resultado</th>
+          </tr>
         </thead>
         <tbody>
           <% @test[:tests].each do |t| %>
