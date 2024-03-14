@@ -4,6 +4,13 @@ require 'faraday/multipart'
 class ApiService
   BACKEND_URL = 'http://backend:4567'
 
+  def self.select_all(page:, limit:)
+    res = Faraday.new(BACKEND_URL)
+                 .get("/tests?page=#{page}&limit=#{limit}")
+
+    res.body if res.status == 200
+  end
+
   def self.upload(params:)
     conn = Faraday.new(BACKEND_URL) do |f|
       f.request :multipart
@@ -17,12 +24,9 @@ class ApiService
   end
 
   def self.search(token:)
-    conn = Faraday.new(
-      url: BACKEND_URL,
-    )
+    res = Faraday.new(BACKEND_URL)
+                 .get("/tests/#{token}")
 
-    res = conn.get("/tests/#{token}")
-
-    JSON.parse(res.body, symbolize_names: true) if res.status == 200
+    res.body if res.status == 200
   end
 end

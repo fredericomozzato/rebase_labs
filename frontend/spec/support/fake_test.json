@@ -1,0 +1,27 @@
+{
+  "token":"T9O6AI",
+  "date":"2021-11-21",
+  "patient": {
+     "cpf":"066.126.400-90",
+     "name":"Matheus Barroso",
+     "email":"maricela@streich.com",
+     "birthdate":"1972-03-09"
+  },
+  "doctor": {
+     "crm":"B000B7CDX4",
+     "crm_state":"SP",
+     "name":"Sra. Calebe Louzada"
+  },
+  "tests":[
+     {
+        "type":"hemácias",
+        "range":"45-52",
+        "result":"48"
+     },
+     {
+        "type":"leucócitos",
+        "range":"9-61",
+        "result":"75"
+     }
+  ]
+}

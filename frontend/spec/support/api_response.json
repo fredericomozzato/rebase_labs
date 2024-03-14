@@ -1,0 +1,54 @@
+[{
+  "token":"T9O6AI",
+  "date":"2021-11-21",
+  "patient": {
+     "cpf":"066.126.400-90",
+     "name":"Matheus Barroso",
+     "email":"maricela@streich.com",
+     "birthdate":"1972-03-09"
+  },
+  "doctor": {
+     "crm":"B000B7CDX4",
+     "crm_state":"SP",
+     "name":"Sra. Calebe Louzada"
+  },
+  "tests":[
+     {
+        "type":"hemácias",
+        "range":"45-52",
+        "result":"48"
+     },
+     {
+        "type":"leucócitos",
+        "range":"9-61",
+        "result":"75"
+     }
+  ]
+},
+{
+   "token":"IQCZ17",
+   "date":"2021-08-05",
+   "patient": {
+      "cpf":"048.973.170-88",
+      "name":"Emilly Batista Neto",
+      "email":"gerald.crona@ebert-quigley.com",
+      "birthdate":"2001-03-11"
+   },
+   "doctor": {
+      "crm":"B000BJ20J4",
+      "crm_state":"PI",
+      "name":"Maria Luiza Pires"
+   },
+   "tests":[
+      {
+         "type":"hemácias",
+         "range":"45-52",
+         "result":"97"
+      },
+      {
+         "type":"leucócitos",
+         "range":"9-61",
+         "result":"89"
+      }
+   ]
+ }]

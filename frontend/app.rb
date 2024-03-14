@@ -1,10 +1,18 @@
 require 'sinatra/base'
 require 'rack-flash'
+require 'byebug'
 require_relative 'services/api_service'
 
 class App < Sinatra::Base
   enable :sessions
   use Rack::Flash
+
+  ENV['PORT'] ||= '3000'
+
+  before do
+    response.headers["Access-Control-Allow-Origin"] = '*'
+    response.headers["Access-Control-Allow-Methods"] = "GET, POST, OPTIONS"
+  end
 
   get '/' do
     redirect to('/exames')
@@ -12,6 +20,16 @@ class App < Sinatra::Base
 
   get '/exames' do
     erb :index
+  end
+
+  get '/tests' do
+    page = params[:page]
+    limit = params[:limit]
+    res = ApiService.select_all(page:, limit:)
+  end
+
+  get '/tests/:token' do
+    res = ApiService.search token: params[:token]
   end
 
   post '/upload' do
@@ -29,11 +47,5 @@ class App < Sinatra::Base
     end
 
     redirect to('/exames')
-  end
-
-  # TODO remove endpoint
-  get '/exames/:token' do
-    @test = ApiService.search token: params[:token]
-    erb :test
   end
 end

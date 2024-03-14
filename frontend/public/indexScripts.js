@@ -23,9 +23,9 @@ document.querySelector("#search-form").addEventListener("keydown", function(e) {
 })
 
 function fetchData() {
-  let url = `http://localhost:4567/tests?page=${page}&limit=${limit}`;
+  let url = `http://localhost:${port}/tests?page=${page}&limit=${limit}`;
   const fragment = new DocumentFragment();
-  
+    
   fetch(url).then((response) => response.json())
             .then((data) => {
               // empty state
@@ -134,7 +134,6 @@ function previousPage() {
 function nextPage() {
   page++;
   document.querySelector("#tests-list").innerHTML = "";
-  console.log(page);
   fetchData();
 }
 
@@ -144,10 +143,11 @@ function searchBarQuery() {
 }
 
 function searchTest(token) {
-  const url = `http://localhost:4567/tests/${token}`;
+  const url = `http://localhost:${port}/tests/${token}`;
   
   fetch(url).then((response) => response.json())
             .then((test) => {
+              console.log(test);
               renderTestInfo(test);
             })
             .catch(function(error) {
