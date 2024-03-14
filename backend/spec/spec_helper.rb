@@ -21,19 +21,6 @@ def app
   Server
 end
 
-Capybara.register_driver :selenium do |app|
-  options = Selenium::WebDriver::Chrome::Options.new
-  options.add_argument '--headless'
-  options.add_argument '--no-sandbox'
-
-  Capybara::Selenium::Driver.new(app, browser: :chrome, options:)
-end
-
-Capybara.javascript_driver = :selenium
-Capybara.default_driver = :selenium
-Capybara.server_host = 'localhost'
-Capybara.app_host = 'http://frontend:3000'
-
 RSpec.configure do |config|
   config.expect_with :rspec do |expectations|
     expectations.include_chain_clauses_in_custom_matcher_descriptions = true
