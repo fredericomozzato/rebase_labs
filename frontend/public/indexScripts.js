@@ -120,6 +120,11 @@ function nextPage() {
   fetchData();
 }
 
+function searchBarQuery() {
+  let token = document.querySelector("input#search-form").value;
+  searchTest(token);
+}
+
 function searchTest(token) {
   const url = `http://localhost:4567/tests/${token}`;
   
@@ -129,6 +134,7 @@ function searchTest(token) {
             })
             .catch(function(error) {
               console.log(error);
+              renderNotFound();
             });
 }
 
@@ -281,4 +287,22 @@ function renderTestInfo(test) {
     const main = document.querySelector("main");
     main.innerHTML = "";
     main.append(section);
+}
+
+function renderNotFound() {
+  const main = document.querySelector("main");
+  main.innerHTML = "";
+  const div = document.createElement("div");
+  div.className = "text-center mt-5";
+  const notFound = document.createElement("h1");
+  notFound.innerText = "Nenhum exame encontrado";
+  const message = document.createElement("p");
+  message.innerText = "Confira o token ou importe novos exames usando o botão no menu";
+  message.className = "text-muted mt-2";
+  const backButton = document.createElement("a");
+  backButton.className = "btn btn-outline-primary";
+  backButton.innerText = "Voltar";
+  backButton.href = "/exames";
+  div.append(notFound, message, backButton);
+  main.append(div);
 }
