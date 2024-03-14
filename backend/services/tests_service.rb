@@ -6,7 +6,6 @@ require_relative '../repositories/doctors_repository'
 require_relative '../repositories/test_types_repository'
 require_relative 'connection_service'
 require_relative '../models/patient'
-require 'byebug'
 
 class TestsService < ConnectionService
   def self.get(page:, limit:)

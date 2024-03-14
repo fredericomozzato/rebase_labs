@@ -4,24 +4,6 @@ let totalRows = 0;
 
 document.addEventListener("DOMContentLoaded", fetchData);
 
-document.addEventListener("keydown", function(e) {
-  if (e.ctrlKey && e.key == "k") {
-    e.preventDefault();
-    
-    const searchForm = document.querySelector("#search-field");
-    if (searchForm) {
-      searchForm.focus();
-    }
-  }
-});
-
-document.querySelector("#search-form").addEventListener("keydown", function(e) {
-  if (e.key == "Enter") {
-    e.preventDefault();
-    searchBarQuery();
-  }
-})
-
 function fetchData() {
   let url = `http://localhost:${port}/tests?page=${page}&limit=${limit}`;
   const fragment = new DocumentFragment();
@@ -117,37 +99,11 @@ function fetchData() {
             });
 }
 
-function firstPage() {
-  page = 1;
-  document.querySelector("#tests-list").innerHTML = "";
-  fetchData();
-}
-
-function previousPage() {
-  if (page > 1) {
-    page--;
-  }
-  document.querySelector("#tests-list").innerHTML = "";
-  fetchData();
-}
-
-function nextPage() {
-  page++;
-  document.querySelector("#tests-list").innerHTML = "";
-  fetchData();
-}
-
-function searchBarQuery() {
-  let token = document.querySelector("input#search-field").value;
-  searchTest(token);
-}
-
 function searchTest(token) {
   const url = `http://localhost:${port}/tests/${token}`;
   
   fetch(url).then((response) => response.json())
             .then((test) => {
-              console.log(test);
               renderTestInfo(test);
             })
             .catch(function(error) {
@@ -326,4 +282,27 @@ function renderNotFound(token) {
   backButton.href = "/exames";
   div.append(notFound, message, backButton);
   main.append(div);
+}
+
+function firstPage() {
+  page = 1;
+  document.querySelector("#tests-list").innerHTML = "";
+  fetchData();
+}
+
+function previousPage() {
+  if (page > 1) { page--; }
+  document.querySelector("#tests-list").innerHTML = "";
+  fetchData();
+}
+
+function nextPage() {
+  page++;
+  document.querySelector("#tests-list").innerHTML = "";
+  fetchData();
+}
+
+function searchBarQuery() {
+  let token = document.querySelector("input#search-field").value;
+  searchTest(token);
 }

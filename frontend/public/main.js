@@ -1,3 +1,21 @@
+document.addEventListener("keydown", function(e) {
+  if (e.ctrlKey && e.key == "k") {
+    e.preventDefault();
+    
+    const searchForm = document.querySelector("#search-field");
+    if (searchForm) {
+      searchForm.focus();
+    }
+  }
+});
+
+document.querySelector("#search-form").addEventListener("keydown", function(e) {
+  if (e.key == "Enter") {
+    e.preventDefault();
+    searchBarQuery();
+  }
+})
+
 function renderImportForm() {
   // form
   const importForm = document.createElement("form");

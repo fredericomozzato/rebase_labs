@@ -23,13 +23,11 @@ class App < Sinatra::Base
   end
 
   get '/tests' do
-    page = params[:page]
-    limit = params[:limit]
-    res = ApiService.select_all(page:, limit:)
+    ApiService.select_all(page: params[:page], limit: params[:limit])
   end
 
   get '/tests/:token' do
-    res = ApiService.search token: params[:token]
+    ApiService.search token: params[:token]
   end
 
   post '/upload' do
